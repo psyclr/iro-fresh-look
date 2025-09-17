@@ -1,15 +1,9 @@
 import communityHero from '@/assets/community-hero.jpg';
-
 const Hero = () => {
-  return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <img
-          src={communityHero}
-          alt="Иудейская община Беларуси"
-          className="w-full h-full object-cover"
-        />
+        <img src={communityHero} alt="Иудейская община Беларуси" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/50"></div>
       </div>
 
@@ -35,31 +29,17 @@ const Hero = () => {
             <button className="btn-primary">
               Узнать больше
             </button>
-            <button className="btn-secondary">
-              Присоединиться
-            </button>
+            
           </div>
         </div>
       </div>
 
       {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/70 animate-bounce">
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 14l-7 7m0 0l-7-7m7 7V3"
-          />
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
         </svg>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
