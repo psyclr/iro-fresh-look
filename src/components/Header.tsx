@@ -21,10 +21,8 @@ const Header = () => {
         <div className="flex items-center justify-between py-4">
           {/* Logo placeholder - будет заменен на оригинальный логотип */}
           <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
-              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                <span className="text-primary text-xs font-bold">IRO</span>
-              </div>
+            <div className="w-12 h-12 flex items-center justify-center">
+              <img src="/src/assets/iro-logo.png" alt="IRO Logo" className="w-12 h-12 object-contain" />
             </div>
             <div className="hidden md:block">
               <h1 className="text-lg font-bold text-primary">Иудейское Религиозное Объединение</h1>

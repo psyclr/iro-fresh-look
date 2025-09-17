@@ -6,8 +6,8 @@ const Footer = () => {
           {/* Organization Info */}
           <div>
             <div className="flex items-center space-x-3 mb-4">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                <span className="text-primary text-xs font-bold">IRO</span>
+              <div className="w-10 h-10 flex items-center justify-center">
+                <img src="/src/assets/iro-logo.png" alt="IRO Logo" className="w-10 h-10 object-contain brightness-0 invert" />
               </div>
               <div>
                 <h3 className="font-bold">Иудейское Религиозное Объединение</h3>
