@@ -19,14 +19,14 @@ const Header = () => {
     <header className="bg-white/95 backdrop-blur-md shadow-soft sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between py-4">
-          {/* Logo placeholder - будет заменен на оригинальный логотип */}
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 flex items-center justify-center">
-              <img src="/src/assets/iro-logo.png" alt="IRO Logo" className="w-12 h-12 object-contain" />
+          {/* Логотип ИРО */}
+          <div className="flex items-center space-x-4">
+            <div className="flex-shrink-0">
+              <img src="/src/assets/iro-logo.png" alt="IRO Logo" className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 object-contain" />
             </div>
-            <div className="hidden md:block">
-              <h1 className="text-lg font-bold text-primary">Иудейское Религиозное Объединение</h1>
-              <p className="text-sm text-muted-foreground">в Республике Беларусь</p>
+            <div className="hidden sm:block min-w-0">
+              <h1 className="text-base sm:text-lg md:text-xl font-bold text-primary leading-tight">Иудейское Религиозное Объединение</h1>
+              <p className="text-xs sm:text-sm text-muted-foreground">в Республике Беларусь</p>
             </div>
           </div>
 

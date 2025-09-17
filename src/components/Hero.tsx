@@ -1,12 +1,10 @@
-import communityHero from '@/assets/community-hero.jpg';
 const Hero = () => {
-  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <img src={communityHero} alt="Иудейская община Беларуси" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/50"></div>
-      </div>
+  const scrollToNextSection = () => {
+    const nextSection = document.querySelector('#mission');
+    nextSection?.scrollIntoView({ behavior: 'smooth' });
+  };
 
+  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary via-primary-light to-accent">
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center text-white">
         <div className="max-w-4xl mx-auto">
@@ -26,10 +24,12 @@ const Hero = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <button className="btn-primary">
+            <button 
+              onClick={scrollToNextSection}
+              className="btn-primary hover:transform hover:scale-105 transition-all duration-300"
+            >
               Узнать больше
             </button>
-            
           </div>
         </div>
       </div>
