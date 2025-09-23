@@ -1,18 +1,19 @@
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const menuItems = [
-    { label: 'ОБЩИНА', href: '#community' },
-    { label: 'ИУДАИЗМ', href: '#judaism' },
-    { label: 'НАСЛЕДИЕ', href: '#heritage' },
-    { label: 'ПРОЕКТЫ', href: '#projects' },
-    { label: 'АФИША', href: '#events' },
-    { label: 'СОБЫТИЯ', href: '#news' },
-    { label: 'ГАЛЕРЕЯ', href: '#gallery' },
-    { label: 'КОНТАКТЫ', href: '#contacts' },
+    { label: 'ОБЩИНА', href: '/community' },
+    { label: 'ИУДАИЗМ', href: '/judaism' },
+    { label: 'НАСЛЕДИЕ', href: '/heritage' },
+    { label: 'ПРОЕКТЫ', href: '/projects' },
+    { label: 'АФИША', href: '/events' },
+    { label: 'СОБЫТИЯ', href: '/news' },
+    { label: 'ГАЛЕРЕЯ', href: '/gallery' },
+    { label: 'КОНТАКТЫ', href: '/contacts' },
   ];
 
   return (
@@ -33,13 +34,13 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-2">
             {menuItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href={item.href}
+                to={item.href}
                 className="nav-link text-sm font-medium"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
             <div className="ml-4 px-2 py-1 bg-accent/10 text-accent text-xs font-medium rounded">
               ENG
@@ -60,14 +61,14 @@ const Header = () => {
           <nav className="lg:hidden pb-4 border-t border-border mt-4">
             <div className="flex flex-col space-y-2 pt-4">
               {menuItems.map((item) => (
-                <a
+                <Link
                   key={item.label}
-                  href={item.href}
+                  to={item.href}
                   className="px-4 py-2 text-primary hover:text-accent hover:bg-accent/5 rounded-lg transition-all"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.label}
-                </a>
+                </Link>
               ))}
             </div>
           </nav>
