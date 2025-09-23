@@ -17,16 +17,23 @@ const Impact = () => {
               
               <div className="space-y-6">
                 <div className="bg-gradient-card p-6 rounded-xl shadow-soft">
-                  <div className="text-3xl font-bold text-primary mb-2">15</div>
+                  <div className="text-3xl font-bold text-primary mb-2">15+</div>
                   <p className="text-muted-foreground">
-                    еврейских общин по всей Беларуси, реализуя совместные проекты
+                    общин в городах Беларуси: Минск, Брест, Орша, Гомель, Могилёв, Бобруйск и др.
                   </p>
                 </div>
                 
                 <div className="bg-gradient-card p-6 rounded-xl shadow-soft">
                   <div className="text-3xl font-bold text-accent mb-2">Ежегодно</div>
                   <p className="text-muted-foreground">
-                    оказываем гуманитарную помощь еврейскому населению, многодетным, людям с ограниченными возможностями
+                    оказываем гуманитарную помощь многодетным семьям и людям с ограниченными возможностями
+                  </p>
+                </div>
+
+                <div className="bg-gradient-card p-6 rounded-xl shadow-soft">
+                  <div className="text-3xl font-bold text-primary mb-2">1-й</div>
+                  <p className="text-muted-foreground">
+                    еврейский лапидарий в Бресте - уникальный музей под открытым небом
                   </p>
                 </div>
               </div>
@@ -44,8 +51,8 @@ const Impact = () => {
               
               <div className="bg-gradient-card p-8 rounded-xl shadow-soft">
                 <p className="text-lg text-muted-foreground leading-relaxed mb-4">
-                  Ежегодно оказываем гуманитарную помощь еврейскому населению, 
-                  многодетным, людям с ограниченными возможностями.
+                  Наши проекты включают издание газеты «Берега», строительство лапидария в Бресте, 
+                  работу Центра изучения еврейского наследия и архивную деятельность.
                 </p>
                 
                 <div className="pt-6 border-t border-border">
@@ -56,7 +63,13 @@ const Impact = () => {
                     теплого и приветливого сообщества, вы всегда найдете у нас дом.
                   </p>
                   
-                  <button className="accent-highlight">
+                  <button 
+                    className="accent-highlight"
+                    onClick={() => {
+                      const contactSection = document.getElementById('contact');
+                      contactSection?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  >
                     Связаться с нами
                   </button>
                 </div>
