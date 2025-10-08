@@ -1,13 +1,68 @@
+import { useMemo } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import type { TFunction } from "i18next";
+import { useTranslation } from "react-i18next";
+
+import { submitContactForm } from "@/lib/contact";
+import { toast } from "@/components/ui/use-toast";
+
+const buildContactSchema = (t: TFunction) =>
+  z.object({
+    name: z
+      .string()
+      .min(2, t("contact.validation.nameMin"))
+      .max(100, t("contact.validation.nameMax")),
+    email: z.string().email(t("contact.validation.email")),
+    message: z.string().min(10, t("contact.validation.messageMin")),
+  });
+
+type ContactFormValues = z.infer<ReturnType<typeof buildContactSchema>>;
+
 const Contact = () => {
+  const { t } = useTranslation();
+  const schema = useMemo(() => buildContactSchema(t), [t]);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactFormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
+  });
+
+  const onSubmit = async (values: ContactFormValues) => {
+    try {
+      await submitContactForm(values);
+      toast({
+        title: t("contact.toast.successTitle"),
+        description: t("contact.toast.successDescription"),
+      });
+      reset();
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: t("contact.toast.errorTitle"),
+        description: t("contact.toast.errorDescription"),
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
-    <section className="py-20 bg-gradient-to-br from-primary/5 to-accent/5">
+    <section id="contact" className="py-20 bg-gradient-to-br from-primary/5 to-accent/5">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="section-title">Свяжитесь с нами</h2>
-            <p className="text-lg text-muted-foreground">
-              Мы всегда рады помочь и ответить на ваши вопросы
-            </p>
+            <h2 className="section-title">{t("contact.title")}</h2>
+            <p className="text-lg text-muted-foreground">{t("contact.description")}</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-12">
@@ -22,10 +77,10 @@ const Contact = () => {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-primary mb-2">Адрес</h3>
+                    <h3 className="font-semibold text-primary mb-2">{t("contact.info.addressTitle")}</h3>
                     <p className="text-muted-foreground">
-                      Минск, Республика Беларусь<br />
-                      (Точный адрес будет добавлен)
+                      {t("contact.info.addressValue")}<br />
+                      <span className="text-sm">{t("contact.info.addressNote")}</span>
                     </p>
                   </div>
                 </div>
@@ -39,10 +94,10 @@ const Contact = () => {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-primary mb-2">Телефон</h3>
+                    <h3 className="font-semibold text-primary mb-2">{t("contact.info.phoneTitle")}</h3>
                     <p className="text-muted-foreground">
-                      +375 (XX) XXX-XX-XX<br />
-                      <span className="text-sm">(Номер будет добавлен)</span>
+                      {t("contact.info.phoneValue")}<br />
+                      <span className="text-sm">{t("contact.info.phoneNote")}</span>
                     </p>
                   </div>
                 </div>
@@ -56,10 +111,10 @@ const Contact = () => {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-primary mb-2">Email</h3>
+                    <h3 className="font-semibold text-primary mb-2">{t("contact.info.emailTitle")}</h3>
                     <p className="text-muted-foreground">
-                      info@iro.by<br />
-                      <span className="text-sm">Ответим в течение 24 часов</span>
+                      {t("contact.info.emailValue")}<br />
+                      <span className="text-sm">{t("contact.info.emailNote")}</span>
                     </p>
                   </div>
                 </div>
@@ -68,47 +123,77 @@ const Contact = () => {
 
             {/* Contact Form */}
             <div className="card-enhanced p-8 rounded-xl">
-              <h3 className="text-xl font-bold text-primary mb-6">Отправить сообщение</h3>
-              
-              <form className="space-y-6">
+              <h3 className="text-xl font-bold text-primary mb-6">{t("contact.form.title")}</h3>
+
+              <form className="space-y-6" onSubmit={handleSubmit(onSubmit)} noValidate>
                 <div>
-                  <label className="block text-sm font-medium text-primary mb-2">
-                    Имя
+                  <label className="block text-sm font-medium text-primary mb-2" htmlFor="contact-name">
+                    {t("contact.form.nameLabel")}
                   </label>
                   <input
+                    id="contact-name"
                     type="text"
+                    autoComplete="name"
+                    {...register("name")}
+                    aria-invalid={errors.name ? "true" : undefined}
+                    aria-describedby={errors.name ? "contact-name-error" : undefined}
                     className="w-full px-4 py-3 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                    placeholder="Ваше имя"
+                    placeholder={t("contact.form.namePlaceholder")}
                   />
+                  {errors.name && (
+                    <p id="contact-name-error" className="mt-2 text-sm text-destructive" aria-live="polite">
+                      {errors.name.message}
+                    </p>
+                  )}
                 </div>
-                
+
                 <div>
-                  <label className="block text-sm font-medium text-primary mb-2">
-                    Email
+                  <label className="block text-sm font-medium text-primary mb-2" htmlFor="contact-email">
+                    {t("contact.form.emailLabel")}
                   </label>
                   <input
+                    id="contact-email"
                     type="email"
+                    autoComplete="email"
+                    {...register("email")}
+                    aria-invalid={errors.email ? "true" : undefined}
+                    aria-describedby={errors.email ? "contact-email-error" : undefined}
                     className="w-full px-4 py-3 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                    placeholder="your@email.com"
+                    placeholder={t("contact.form.emailPlaceholder")}
                   />
+                  {errors.email && (
+                    <p id="contact-email-error" className="mt-2 text-sm text-destructive" aria-live="polite">
+                      {errors.email.message}
+                    </p>
+                  )}
                 </div>
-                
+
                 <div>
-                  <label className="block text-sm font-medium text-primary mb-2">
-                    Сообщение
+                  <label className="block text-sm font-medium text-primary mb-2" htmlFor="contact-message">
+                    {t("contact.form.messageLabel")}
                   </label>
                   <textarea
+                    id="contact-message"
                     rows={4}
+                    {...register("message")}
+                    aria-invalid={errors.message ? "true" : undefined}
+                    aria-describedby={errors.message ? "contact-message-error" : undefined}
                     className="w-full px-4 py-3 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
-                    placeholder="Ваше сообщение..."
-                  ></textarea>
+                    placeholder={t("contact.form.messagePlaceholder")}
+                  />
+                  {errors.message && (
+                    <p id="contact-message-error" className="mt-2 text-sm text-destructive" aria-live="polite">
+                      {errors.message.message}
+                    </p>
+                  )}
                 </div>
-                
+
                 <button
                   type="submit"
-                  className="w-full btn-primary text-center"
+                  className="w-full btn-primary text-center disabled:opacity-70 disabled:cursor-not-allowed"
+                  disabled={isSubmitting}
                 >
-                  Отправить сообщение
+                  {isSubmitting ? t("contact.form.submitLoading") : t("contact.form.submit")}
                 </button>
               </form>
             </div>

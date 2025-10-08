@@ -1,4 +1,11 @@
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
+import logo from "@/assets/iro-logo.png";
+
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-primary text-white py-12">
       <div className="container mx-auto px-4">
@@ -7,65 +14,63 @@ const Footer = () => {
           <div>
             <div className="flex items-center space-x-3 mb-4">
               <div className="w-10 h-10 flex items-center justify-center">
-                <img src="/src/assets/iro-logo.png" alt="IRO Logo" className="w-10 h-10 object-contain brightness-0 invert" />
+                <img src={logo} alt="IRO Logo" className="w-10 h-10 object-contain brightness-0 invert" />
               </div>
               <div>
-                <h3 className="font-bold">Иудейское Религиозное Объединение</h3>
-                <p className="text-sm text-white/80">в Республике Беларусь</p>
+                <h3 className="font-bold">{t("hero.titleHighlight")}</h3>
+                <p className="text-sm text-white/80">{t("hero.titleLine3")}</p>
               </div>
             </div>
             <p className="text-white/80 text-sm leading-relaxed">
-              Сохраняя традиции и строя будущее еврейской общины в Беларуси
+              {t("footer.tagline")}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold mb-4">Быстрые ссылки</h4>
+            <h4 className="font-semibold mb-4">{t("footer.quickLinks")}</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#community" className="text-white/80 hover:text-accent-light transition-colors">
-                  О нас
-                </a>
+                <Link to="/community" className="text-white/80 hover:text-accent-light transition-colors">
+                  {t("navigation.menu.community")}
+                </Link>
               </li>
               <li>
-                <a href="#events" className="text-white/80 hover:text-accent-light transition-colors">
-                  События
-                </a>
+                <Link to="/events" className="text-white/80 hover:text-accent-light transition-colors">
+                  {t("navigation.menu.events")}
+                </Link>
               </li>
               <li>
-                <a href="#projects" className="text-white/80 hover:text-accent-light transition-colors">
-                  Проекты
-                </a>
+                <Link to="/projects" className="text-white/80 hover:text-accent-light transition-colors">
+                  {t("navigation.menu.projects")}
+                </Link>
               </li>
               <li>
-                <a href="#contacts" className="text-white/80 hover:text-accent-light transition-colors">
-                  Контакты
-                </a>
+                <Link to="/contacts" className="text-white/80 hover:text-accent-light transition-colors">
+                  {t("navigation.menu.contacts")}
+                </Link>
               </li>
             </ul>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-semibold mb-4">Контакты</h4>
+            <h4 className="font-semibold mb-4">{t("footer.contactTitle")}</h4>
             <div className="space-y-2 text-sm text-white/80">
-              <p>Минск, Республика Беларусь</p>
-              <p>Email: info@iro.by</p>
-              <p>Тел: +375 (XX) XXX-XX-XX</p>
+              <p>{t("contact.info.addressValue")}</p>
+              <p>{t("community.card.email", { email: t("contact.info.emailValue") })}</p>
+              <p>{t("community.card.phone", { phone: t("contact.info.phoneValue") })}</p>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
         <div className="border-t border-white/20 pt-8 flex flex-col md:flex-row items-center justify-between">
-          <p className="text-sm text-white/60">
-            © 2024 Иудейское Религиозное Объединение в Республике Беларусь. Все права защищены.
-          </p>
+          <p className="text-sm text-white/60">{t("footer.rights")}</p>
           <div className="flex space-x-4 mt-4 md:mt-0">
-            <span className="text-xs text-white/40">Создано с</span>
+            <span className="text-xs text-white/40">{t("footer.madeWith")}</span>
             <span className="text-accent-light text-xs">❤️</span>
-            <span className="text-xs text-white/40">для общины</span>
+            <span className="text-xs text-white/40">{t("footer.forCommunity")}</span>
           </div>
         </div>
       </div>
