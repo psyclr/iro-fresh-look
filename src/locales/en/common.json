@@ -1,0 +1,132 @@
+{
+  "navigation": {
+    "menu": {
+      "community": "Community",
+      "judaism": "Judaism",
+      "heritage": "Heritage",
+      "projects": "Projects",
+      "events": "Events",
+      "news": "News",
+      "gallery": "Gallery",
+      "contacts": "Contacts"
+    },
+    "language": {
+      "label": "Switch language",
+      "ru": "Русский",
+      "en": "English"
+    }
+  },
+  "hero": {
+    "titleLine1": "Welcome to the official website of the",
+    "titleHighlight": "Jewish Religious Union",
+    "titleLine3": "in the Republic of Belarus",
+    "description": "We are the heart of the Jewish community, continuing the traditions of our people and contributing to the multicultural heritage of Belarus.",
+    "cta": "Learn more"
+  },
+  "mission": {
+    "title": "Our mission",
+    "lead": "To preserve and pass on Jewish traditions while supporting the spiritual and cultural development of the Jewish community in Belarus.",
+    "pillars": {
+      "publication": {
+        "title": "BEREGA newspaper",
+        "description": "A publication covering the life and traditions of Jewish communities"
+      },
+      "lapidary": {
+        "title": "Lapidarium in Brest",
+        "description": "Building the first Jewish lapidarium — an open-air museum"
+      },
+      "heritage": {
+        "title": "Heritage research center",
+        "description": "Researching and preserving the Jewish cultural heritage of Belarus"
+      },
+      "support": {
+        "title": "Humanitarian aid",
+        "description": "Supporting large families and people with disabilities"
+      }
+    }
+  },
+  "impact": {
+    "supportTitle": "We support",
+    "metrics": {
+      "communitiesValue": "15+",
+      "communitiesLabel": "communities across Belarus: Minsk, Brest, Orsha, Gomel, Mogilev, Bobruisk and more.",
+      "humanitarianValue": "Annually",
+      "humanitarianLabel": "we provide humanitarian aid to large families and people with disabilities",
+      "lapidaryValue": "1st",
+      "lapidaryLabel": "Jewish lapidarium in Brest — a unique open-air museum"
+    },
+    "helpTitle": "We empower",
+    "helpDescription": "Our projects include the BEREGA newspaper, the Brest lapidarium, the Jewish heritage research center and archival initiatives.",
+    "helpJoinTitle": "Join us!",
+    "helpJoinDescription": "Whether you are looking for a place to pray, to learn about your cultural roots or to become part of a warm community, you will always find a home with us.",
+    "cta": "Contact us"
+  },
+  "contact": {
+    "title": "Get in touch",
+    "description": "We are happy to help and answer any of your questions",
+    "info": {
+      "addressTitle": "Address",
+      "addressValue": "Minsk, Republic of Belarus",
+      "addressNote": "(Exact address coming soon)",
+      "phoneTitle": "Phone",
+      "phoneValue": "+375 (XX) XXX-XX-XX",
+      "phoneNote": "(Number coming soon)",
+      "emailTitle": "Email",
+      "emailValue": "info@iro.by",
+      "emailNote": "We reply within 24 hours"
+    },
+    "form": {
+      "title": "Send a message",
+      "nameLabel": "Name",
+      "namePlaceholder": "Your name",
+      "emailLabel": "Email",
+      "emailPlaceholder": "your@email.com",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Your message...",
+      "submit": "Send message",
+      "submitLoading": "Sending..."
+    },
+    "validation": {
+      "nameMin": "Please enter at least 2 characters",
+      "nameMax": "The name is too long",
+      "email": "Please enter a valid email",
+      "messageMin": "The message should be at least 10 characters long"
+    },
+    "toast": {
+      "successTitle": "Message sent",
+      "successDescription": "Thank you! We will contact you shortly.",
+      "errorTitle": "Unable to send",
+      "errorDescription": "Please try again later or contact us via email."
+    }
+  },
+  "community": {
+    "pageTitle": "Community",
+    "intro": "The Jewish community of Belarus connects people across the country, creating a space for spiritual growth and mutual support.",
+    "mapTitle": "Community map",
+    "listTitle": "All communities",
+    "filters": {
+      "all": "All regions",
+      "minsk": "Minsk Region",
+      "brest": "Brest Region",
+      "vitebsk": "Vitebsk Region",
+      "gomel": "Gomel Region",
+      "mogilev": "Mogilev Region",
+      "grodno": "Grodno Region"
+    },
+    "card": {
+      "leader": "Leader: {{name}}",
+      "phone": "Phone: {{phone}}",
+      "email": "Email: {{email}}",
+      "address": "Address: {{address}}"
+    },
+    "empty": "No communities in the selected region yet"
+  },
+  "footer": {
+    "tagline": "Preserving traditions and building the future of the Jewish community in Belarus",
+    "quickLinks": "Quick links",
+    "contactTitle": "Contacts",
+    "rights": "© 2024 Jewish Religious Union in the Republic of Belarus. All rights reserved.",
+    "madeWith": "Built with",
+    "forCommunity": "for the community"
+  }
+}

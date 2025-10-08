@@ -1,4 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 const Impact = () => {
+  const { t } = useTranslation();
   return (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
@@ -13,28 +16,22 @@ const Impact = () => {
                 </svg>
               </div>
               
-              <h2 className="section-title mb-6">Поддерживаем</h2>
+              <h2 className="section-title mb-6">{t("impact.supportTitle")}</h2>
               
               <div className="space-y-6">
                 <div className="bg-gradient-card p-6 rounded-xl shadow-soft">
-                  <div className="text-3xl font-bold text-primary mb-2">15+</div>
-                  <p className="text-muted-foreground">
-                    общин в городах Беларуси: Минск, Брест, Орша, Гомель, Могилёв, Бобруйск и др.
-                  </p>
+                  <div className="text-3xl font-bold text-primary mb-2">{t("impact.metrics.communitiesValue")}</div>
+                  <p className="text-muted-foreground">{t("impact.metrics.communitiesLabel")}</p>
                 </div>
                 
                 <div className="bg-gradient-card p-6 rounded-xl shadow-soft">
-                  <div className="text-3xl font-bold text-accent mb-2">Ежегодно</div>
-                  <p className="text-muted-foreground">
-                    оказываем гуманитарную помощь многодетным семьям и людям с ограниченными возможностями
-                  </p>
+                  <div className="text-3xl font-bold text-accent mb-2">{t("impact.metrics.humanitarianValue")}</div>
+                  <p className="text-muted-foreground">{t("impact.metrics.humanitarianLabel")}</p>
                 </div>
 
                 <div className="bg-gradient-card p-6 rounded-xl shadow-soft">
-                  <div className="text-3xl font-bold text-primary mb-2">1-й</div>
-                  <p className="text-muted-foreground">
-                    еврейский лапидарий в Бресте - уникальный музей под открытым небом
-                  </p>
+                  <div className="text-3xl font-bold text-primary mb-2">{t("impact.metrics.lapidaryValue")}</div>
+                  <p className="text-muted-foreground">{t("impact.metrics.lapidaryLabel")}</p>
                 </div>
               </div>
             </div>
@@ -47,21 +44,14 @@ const Impact = () => {
                 </svg>
               </div>
               
-              <h2 className="section-title mb-6">Помогаем</h2>
+              <h2 className="section-title mb-6">{t("impact.helpTitle")}</h2>
               
               <div className="bg-gradient-card p-8 rounded-xl shadow-soft">
-                <p className="text-lg text-muted-foreground leading-relaxed mb-4">
-                  Наши проекты включают издание газеты «Берега», строительство лапидария в Бресте, 
-                  работу Центра изучения еврейского наследия и архивную деятельность.
-                </p>
+                <p className="text-lg text-muted-foreground leading-relaxed mb-4">{t("impact.helpDescription")}</p>
                 
                 <div className="pt-6 border-t border-border">
-                  <h3 className="font-semibold text-primary mb-4">Присоединяйтесь к нам!</h3>
-                  <p className="text-muted-foreground mb-6">
-                    Независимо от того, ищете ли вы место для молитвы, желаете узнать 
-                    больше о своем культурном наследии или просто хотите стать частью 
-                    теплого и приветливого сообщества, вы всегда найдете у нас дом.
-                  </p>
+                  <h3 className="font-semibold text-primary mb-4">{t("impact.helpJoinTitle")}</h3>
+                  <p className="text-muted-foreground mb-6">{t("impact.helpJoinDescription")}</p>
                   
                   <button 
                     className="accent-highlight"
@@ -70,7 +60,7 @@ const Impact = () => {
                       contactSection?.scrollIntoView({ behavior: 'smooth' });
                     }}
                   >
-                    Связаться с нами
+                    {t("impact.cta")}
                   </button>
                 </div>
               </div>
