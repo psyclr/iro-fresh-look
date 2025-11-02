@@ -10,6 +10,32 @@
       "gallery": "Gallery",
       "contacts": "Contacts"
     },
+    "submenu": {
+      "community": {
+        "communities": "All Communities",
+        "minsk": "Minsk Community",
+        "regional": "Regional Communities"
+      },
+      "judaism": {
+        "rabbi": "Rabbi's Council",
+        "holidays": "Holidays",
+        "traditions": "Traditions"
+      },
+      "heritage": {
+        "lapidary": "Lapidarium",
+        "cemeteries": "Cemeteries",
+        "archives": "Archives"
+      },
+      "projects": {
+        "newspaper": "BEREGA Newspaper",
+        "education": "Education",
+        "tours": "Tours"
+      },
+      "events": {
+        "upcoming": "Upcoming Events",
+        "archive": "Past Events"
+      }
+    },
     "language": {
       "label": "Switch language",
       "ru": "Русский",
@@ -21,7 +47,37 @@
     "titleHighlight": "Jewish Religious Union",
     "titleLine3": "in the Republic of Belarus",
     "description": "We are the heart of the Jewish community, continuing the traditions of our people and contributing to the multicultural heritage of Belarus.",
-    "cta": "Learn more"
+    "cta": "Learn more",
+    "compact": {
+      "title": "Jewish Religious Union",
+      "subtitle": "Uniting Jewish communities across Belarus, preserving traditions and developing our people's cultural heritage"
+    }
+  },
+  "home": {
+    "map": {
+      "title": "Our Communities Across Belarus",
+      "subtitle": "Click on a city to learn more about the community",
+      "learnMore": "Learn more",
+      "legend": {
+        "community": "Community",
+        "selected": "Selected"
+      }
+    },
+    "stats": {
+      "communities": "Communities nationwide",
+      "regions": "Regions of Belarus",
+      "since": "Year founded",
+      "events": "Events per year"
+    },
+    "projects": {
+      "title": "Our Projects",
+      "subtitle": "We develop cultural, educational and charitable initiatives"
+    },
+    "donation": {
+      "title": "Support Our Projects",
+      "description": "Your help enables us to develop communities, hold events and maintain traditions",
+      "cta": "Donate"
+    }
   },
   "mission": {
     "title": "Our mission",
