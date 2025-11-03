@@ -1,0 +1,2 @@
+- always use linter
+- always build and run before final response
