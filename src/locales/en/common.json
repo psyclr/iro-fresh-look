@@ -1,7 +1,7 @@
 {
   "navigation": {
     "menu": {
-      "community": "Community",
+      "community": "Communities",
       "judaism": "Judaism",
       "heritage": "Heritage",
       "projects": "Projects",
@@ -40,7 +40,8 @@
       "label": "Switch language",
       "ru": "Русский",
       "en": "English"
-    }
+    },
+    "back": "Back to communities list"
   },
   "hero": {
     "titleLine1": "Welcome to the official website of the",
@@ -156,8 +157,8 @@
     }
   },
   "community": {
-    "pageTitle": "Community",
-    "intro": "The Jewish community of Belarus connects people across the country, creating a space for spiritual growth and mutual support.",
+    "pageTitle": "Communities in Belarus",
+    "intro": "15 Jewish communities in Minsk, Brest, Grodno, Vitebsk, Gomel and other cities of Belarus",
     "mapTitle": "Community map",
     "listTitle": "All communities",
     "filters": {
@@ -170,12 +171,48 @@
       "grodno": "Grodno Region"
     },
     "card": {
-      "leader": "Leader: {{name}}",
+      "leader": "Community Leader: {{name}}",
       "phone": "Phone: {{phone}}",
       "email": "Email: {{email}}",
       "address": "Address: {{address}}"
     },
     "empty": "No communities in the selected region yet"
+  },
+  "communityDrawer": {
+    "close": "Close",
+    "history": {
+      "title": "History",
+      "founded": "Founded",
+      "facts": "About our history"
+    },
+    "schedule": {
+      "title": "Shabbat Schedule",
+      "candleLighting": "Candle lighting",
+      "havdalah": "End of Shabbat (Havdalah)",
+      "note": "Note"
+    },
+    "programs": {
+      "title": "Programs",
+      "categories": {
+        "education": "Education",
+        "social": "Social Programs",
+        "religious": "Religious Life",
+        "cultural": "Culture",
+        "youth": "Youth"
+      },
+      "schedule": "Schedule",
+      "contact": "Contact person"
+    },
+    "gallery": {
+      "title": "Photo Gallery",
+      "buildingPhoto": "Community building",
+      "events": "Event photos"
+    },
+    "info": {
+      "title": "About the Community",
+      "members": "people in the community",
+      "languages": "Prayer languages"
+    }
   },
   "footer": {
     "tagline": "Preserving traditions and building the future of the Jewish community in Belarus",

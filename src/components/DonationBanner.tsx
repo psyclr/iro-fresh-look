@@ -13,7 +13,7 @@ const DonationBanner = () => {
   return (
     <section className="py-12 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5">
       <div className="container mx-auto px-4">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 md:p-10 border border-border shadow-soft">
             <div className="flex flex-col md:flex-row items-center gap-6">
               <div className="flex-shrink-0">

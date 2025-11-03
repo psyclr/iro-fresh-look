@@ -1,162 +1,203 @@
-import { useMemo, useState } from "react";
-import type { LatLngExpression } from "leaflet";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Loader2, ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import CommunityMap from "@/components/CommunityMap";
 import {
-  COMMUNITY_REGIONS,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
+import {
   fetchCommunities,
   getLocalizedField,
-  type CommunityRegion,
+  type Community,
 } from "@/lib/communities";
-
-const DEFAULT_CENTER: LatLngExpression = [53.709807, 27.953389];
-
-type RegionFilter = CommunityRegion | "all";
 
 const Community = () => {
   const { t, i18n } = useTranslation();
   const language = (i18n.resolvedLanguage || i18n.language || "ru").split("-")[0];
-  const [selectedRegion, setSelectedRegion] = useState<RegionFilter>("all");
+  const navigate = useNavigate();
 
   const { data: communities = [], isLoading } = useQuery({
     queryKey: ["communities"],
     queryFn: fetchCommunities,
   });
 
-  const filteredCommunities = useMemo(() => {
-    if (selectedRegion === "all") {
-      return communities;
-    }
-    return communities.filter((community) => community.region === selectedRegion);
-  }, [communities, selectedRegion]);
+  // Get unique city IDs for tabs and sort them
+  const cityIds = [...new Set(communities.map((c) => c.id.split("-")[0]))];
 
-  const mapCenter = useMemo<LatLngExpression>(() => {
-    if (!filteredCommunities.length) {
-      return DEFAULT_CENTER;
+  // Sort: Minsk first, then regional centers alphabetically, then other cities alphabetically
+  const regionalCenters = ["brest", "vitebsk", "gomel", "grodno", "mogilev"];
+  const sortedCityIds = cityIds.sort((a, b) => {
+    // Minsk always first
+    if (a === "minsk") return -1;
+    if (b === "minsk") return 1;
+
+    // Regional centers before other cities
+    const aIsRegional = regionalCenters.includes(a);
+    const bIsRegional = regionalCenters.includes(b);
+
+    if (aIsRegional && !bIsRegional) return -1;
+    if (!aIsRegional && bIsRegional) return 1;
+
+    // Both same category - alphabetical by city name
+    const aCommunity = communities.find((c) => c.id.startsWith(`${a}-`));
+    const bCommunity = communities.find((c) => c.id.startsWith(`${b}-`));
+
+    if (aCommunity && bCommunity) {
+      const aName = getLocalizedField(aCommunity.city, language);
+      const bName = getLocalizedField(bCommunity.city, language);
+      return aName.localeCompare(bName, language);
     }
 
-    const [lat, lng] = filteredCommunities.reduce(
-      (acc, community) => {
-        acc[0] += community.coordinates[0];
-        acc[1] += community.coordinates[1];
-        return acc;
-      },
-      [0, 0] as [number, number],
+    return 0;
+  });
+
+  const [selectedCityId, setSelectedCityId] = useState(sortedCityIds[0] || "minsk");
+
+  // Get community for selected city
+  const selectedCommunity = communities.find((c) => c.id.startsWith(`${selectedCityId}-`));
+
+  const handleLearnMore = () => {
+    if (selectedCommunity) {
+      const cityId = selectedCommunity.id.split("-")[0];
+      navigate(`/community/${cityId}`);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <main className="py-16">
+          <div className="container mx-auto px-4">
+            <div className="flex items-center justify-center py-12" role="status" aria-live="polite">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <span className="sr-only">Loading communities...</span>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
     );
-
-    return [lat / filteredCommunities.length, lng / filteredCommunities.length];
-  }, [filteredCommunities]);
-
-  const regionOptions = useMemo(
-    () => [
-      { value: "all" as RegionFilter, label: t("community.filters.all") },
-      ...COMMUNITY_REGIONS.map((region) => ({
-        value: region as RegionFilter,
-        label: t(`community.filters.${region}`),
-      })),
-    ],
-    [t],
-  );
+  }
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main className="py-16">
-        <div className="container mx-auto px-4 space-y-12">
-          <div className="text-center max-w-2xl mx-auto space-y-4">
+        <div className="container mx-auto px-4 max-w-5xl">
+          {/* Header */}
+          <div className="text-center max-w-2xl mx-auto space-y-4 mb-12">
             <h1 className="text-4xl font-bold text-primary">{t("community.pageTitle")}</h1>
             <p className="text-lg text-muted-foreground">{t("community.intro")}</p>
           </div>
 
-          <section className="bg-white/70 backdrop-blur rounded-2xl p-6 shadow-soft border border-border">
-            <div className="flex flex-wrap items-center gap-3">
-              {regionOptions.map((option) => {
-                const isActive = option.value === selectedRegion;
+          {/* Tabs with cities */}
+          <Tabs value={selectedCityId} onValueChange={setSelectedCityId} className="space-y-8">
+            <TabsList className="w-full justify-start overflow-x-auto flex-wrap h-auto gap-2 bg-white/70 backdrop-blur p-4">
+              {sortedCityIds.map((cityId) => {
+                const community = communities.find((c) => c.id.startsWith(`${cityId}-`));
+                if (!community) return null;
+
                 return (
-                  <button
-                    key={option.value}
-                    type="button"
-                    onClick={() => setSelectedRegion(option.value)}
-                    className={`rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
-                      isActive
-                        ? "bg-primary text-white focus-visible:ring-primary"
-                        : "bg-transparent text-primary hover:bg-primary/10 focus-visible:ring-primary/40"
-                    }`}
-                    aria-pressed={isActive}
+                  <TabsTrigger
+                    key={cityId}
+                    value={cityId}
+                    className="text-base px-6 py-3 data-[state=active]:bg-primary data-[state=active]:text-white"
                   >
-                    {option.label}
-                  </button>
+                    {getLocalizedField(community.city, language)}
+                  </TabsTrigger>
                 );
               })}
-            </div>
-          </section>
+            </TabsList>
 
-          <section className="grid gap-8 xl:grid-cols-[1.2fr,1fr]">
-            <div className="order-2 xl:order-1 space-y-6">
-              <h2 className="text-2xl font-semibold text-primary">{t("community.listTitle")}</h2>
+            {sortedCityIds.map((cityId) => {
+              const community = communities.find((c) => c.id.startsWith(`${cityId}-`));
+              if (!community) return null;
 
-              {isLoading ? (
-                <div className="flex items-center justify-center py-12" role="status" aria-live="polite">
-                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                  <span className="sr-only">Loading communities...</span>
-                </div>
-              ) : filteredCommunities.length === 0 ? (
-                <p className="rounded-xl border border-dashed border-border bg-card/50 p-6 text-center text-muted-foreground">
-                  {t("community.empty")}
-                </p>
-              ) : (
-                <div className="grid gap-6 lg:grid-cols-2">
-                  {filteredCommunities.map((community) => (
-                    <article key={community.id} className="rounded-xl border border-border bg-card/80 p-6 shadow-soft">
-                      <div className="flex flex-col gap-3">
-                        <div className="flex items-start justify-between gap-4">
-                          <div>
-                            <h3 className="text-xl font-semibold text-primary">
-                              {getLocalizedField(community.city, language)}
-                            </h3>
-                            <p className="text-sm text-muted-foreground">
-                              {getLocalizedField(community.communityName, language)}
-                            </p>
-                          </div>
-                          <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-primary">
-                            {t(`community.filters.${community.region}`)}
-                          </span>
-                        </div>
-                        <p className="text-sm text-muted-foreground">
-                          {getLocalizedField(community.description, language)}
+              return (
+                <TabsContent key={cityId} value={cityId} className="space-y-8">
+                  {/* Community Card */}
+                  <div className="bg-white/70 backdrop-blur rounded-2xl p-8 shadow-soft border border-border space-y-6">
+                    {/* Title */}
+                    <div className="space-y-2">
+                      <h2 className="text-3xl font-bold text-primary">
+                        {getLocalizedField(community.city, language)}
+                      </h2>
+                      <p className="text-xl text-muted-foreground">
+                        {getLocalizedField(community.communityName, language)}
+                      </p>
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-lg text-muted-foreground leading-relaxed">
+                      {getLocalizedField(community.description, language)}
+                    </p>
+
+                    {/* Contact Information */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-border">
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground mb-2">
+                          {t("community.card.leader", { name: "" }).split(":")[0]}
                         </p>
-                        <div className="mt-4 space-y-2 text-sm text-muted-foreground">
-                          <p>{t("community.card.leader", { name: community.leader })}</p>
-                          {community.phone && <p>{t("community.card.phone", { phone: community.phone })}</p>}
-                          {community.email && <p>{t("community.card.email", { email: community.email })}</p>}
-                          <p>
-                            {t("community.card.address", {
-                              address: getLocalizedField(community.address, language),
-                            })}
+                        <p className="text-lg text-foreground font-semibold">{community.leader}</p>
+                      </div>
+
+                      {community.phone && (
+                        <div>
+                          <p className="text-sm font-medium text-muted-foreground mb-2">
+                            {t("community.card.phone", { phone: "" }).split(":")[0]}
+                          </p>
+                          <a href={`tel:${community.phone}`} className="text-lg text-primary hover:underline font-semibold">
+                            {community.phone}
+                          </a>
+                        </div>
+                      )}
+
+                      {community.email && (
+                        <div>
+                          <p className="text-sm font-medium text-muted-foreground mb-2">
+                            {t("community.card.email", { email: "" }).split(":")[0]}
+                          </p>
+                          <a href={`mailto:${community.email}`} className="text-lg text-primary hover:underline break-all font-semibold">
+                            {community.email}
+                          </a>
+                        </div>
+                      )}
+
+                      {community.address && (
+                        <div>
+                          <p className="text-sm font-medium text-muted-foreground mb-2">
+                            {t("community.card.address", { address: "" }).split(":")[0]}
+                          </p>
+                          <p className="text-lg text-foreground">
+                            {getLocalizedField(community.address, language)}
                           </p>
                         </div>
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              )}
-            </div>
+                      )}
+                    </div>
 
-            <div className="order-1 xl:order-2 space-y-4">
-              <h2 className="text-2xl font-semibold text-primary">{t("community.mapTitle")}</h2>
-              <CommunityMap
-                communities={filteredCommunities.length ? filteredCommunities : communities}
-                center={mapCenter}
-                language={language}
-                label={t("community.mapTitle")}
-              />
-            </div>
-          </section>
+                    {/* Learn More Button */}
+                    <div className="pt-4">
+                      <button
+                        onClick={handleLearnMore}
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-medium text-lg"
+                      >
+                        {t("home.map.learnMore")}
+                        <ArrowRight className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </div>
+                </TabsContent>
+              );
+            })}
+          </Tabs>
         </div>
       </main>
       <Footer />

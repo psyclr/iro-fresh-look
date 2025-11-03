@@ -99,11 +99,6 @@ const Header = () => {
     {
       key: "community",
       href: "/community",
-      submenu: [
-        { key: "communities", href: "/community#communities", description: "15 общин по всей Беларуси" },
-        { key: "minsk", href: "/community#minsk", description: "Минская община" },
-        { key: "regional", href: "/community#regional", description: "Региональные общины" },
-      ]
     },
     {
       key: "judaism",

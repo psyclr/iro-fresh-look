@@ -41,9 +41,10 @@ interface CommunityMapProps {
   center: LatLngExpression;
   language: string;
   label: string;
+  onCommunityClick?: (community: Community) => void;
 }
 
-const CommunityMap = ({ communities, center, language, label }: CommunityMapProps) => (
+const CommunityMap = ({ communities, center, language, label, onCommunityClick }: CommunityMapProps) => (
   <MapContainer
     center={center}
     zoom={7}
@@ -59,16 +60,26 @@ const CommunityMap = ({ communities, center, language, label }: CommunityMapProp
     {communities.map((community) => (
       <Marker key={community.id} position={community.coordinates}>
         <Popup>
-          <div className="space-y-1">
-            <h3 className="text-base font-semibold text-primary">
-              {getLocalizedField(community.city, language)}
-            </h3>
-            <p className="text-sm font-medium text-muted-foreground">
-              {getLocalizedField(community.communityName, language)}
-            </p>
-            <p className="text-xs text-muted-foreground">
-              {getLocalizedField(community.address, language)}
-            </p>
+          <div className="space-y-2">
+            <div>
+              <h3 className="text-base font-semibold text-primary">
+                {getLocalizedField(community.city, language)}
+              </h3>
+              <p className="text-sm font-medium text-muted-foreground">
+                {getLocalizedField(community.communityName, language)}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {getLocalizedField(community.address, language)}
+              </p>
+            </div>
+            {onCommunityClick && (
+              <button
+                onClick={() => onCommunityClick(community)}
+                className="w-full mt-2 px-3 py-1.5 text-sm font-medium text-white bg-primary rounded hover:bg-primary/90 transition-colors"
+              >
+                Подробнее
+              </button>
+            )}
           </div>
         </Popup>
       </Marker>
