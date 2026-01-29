@@ -8,7 +8,8 @@
       "events": "Events",
       "news": "News",
       "gallery": "Gallery",
-      "contacts": "Contacts"
+      "contacts": "Contacts",
+      "blog": "Blog"
     },
     "submenu": {
       "community": {
@@ -221,5 +222,27 @@
     "rights": "© 2024 Jewish Religious Union in the Republic of Belarus. All rights reserved.",
     "madeWith": "Built with",
     "forCommunity": "for the community"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "News, reflections and stories from the Jewish community",
+    "noArticles": "No articles yet",
+    "readMore": "Read more",
+    "backToList": "Back to list",
+    "articleNotFound": "Article not found",
+    "articleNotFoundDescription": "Unfortunately, the requested article was not found or has been removed",
+    "relatedArticles": "Related articles"
+  },
+  "candleLighting": {
+    "title": "Candle Lighting",
+    "candles": "Candle Lighting",
+    "havdalah": "Havdalah",
+    "parashat": "Torah Portion",
+    "powered": "Powered by"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "errorOccurred": "An error occurred while loading data"
   }
 }

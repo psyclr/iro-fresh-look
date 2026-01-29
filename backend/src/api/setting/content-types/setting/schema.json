@@ -1,0 +1,54 @@
+{
+  "kind": "singleType",
+  "collectionName": "settings",
+  "info": {
+    "singularName": "setting",
+    "pluralName": "settings",
+    "displayName": "Settings",
+    "description": "Global site settings, labels and texts"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "site_name": {
+      "type": "string"
+    },
+    "site_description": {
+      "type": "text"
+    },
+    "hero_title": {
+      "type": "string"
+    },
+    "hero_subtitle": {
+      "type": "text"
+    },
+    "contact_email": {
+      "type": "email"
+    },
+    "contact_phone": {
+      "type": "string"
+    },
+    "contact_address": {
+      "type": "string"
+    },
+    "social_media": {
+      "type": "json"
+    },
+    "footer_text": {
+      "type": "text"
+    },
+    "communities_title": {
+      "type": "string"
+    },
+    "communities_description": {
+      "type": "text"
+    },
+    "projects_title": {
+      "type": "string"
+    },
+    "projects_description": {
+      "type": "text"
+    }
+  }
+}

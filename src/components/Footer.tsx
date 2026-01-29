@@ -65,12 +65,23 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/20 pt-8 flex flex-col md:flex-row items-center justify-between">
+        <div className="border-t border-white/20 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-white/60">{t("footer.rights")}</p>
-          <div className="flex space-x-4 mt-4 md:mt-0">
-            <span className="text-xs text-white/40">{t("footer.madeWith")}</span>
-            <span className="text-accent-light text-xs">❤️</span>
-            <span className="text-xs text-white/40">{t("footer.forCommunity")}</span>
+          <div className="flex items-center gap-6">
+            <div className="flex space-x-4">
+              <span className="text-xs text-white/40">{t("footer.madeWith")}</span>
+              <span className="text-accent-light text-xs">❤️</span>
+              <span className="text-xs text-white/40">{t("footer.forCommunity")}</span>
+            </div>
+            <span className="text-white/20">•</span>
+            <a
+              href="https://www.hebcal.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-white/60 hover:text-white/80 transition-colors"
+            >
+              {t("candleLighting.powered", "Данные")}: Hebcal.com
+            </a>
           </div>
         </div>
       </div>

@@ -1,3 +1,6 @@
+/* Fonts - Elegant serif for headings */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -53,9 +56,10 @@
     --shadow-strong: 0 16px 48px -12px hsl(var(--primary) / 0.2);
 
     /* Typography enhancements */
+    --font-display: 'Playfair Display', Georgia, serif;
     --font-size-hero: clamp(2.5rem, 5vw, 4rem);
     --font-size-section: clamp(1.75rem, 3vw, 2.25rem);
-    
+
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-spring: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -74,6 +78,13 @@
 
   html {
     scroll-behavior: smooth;
+  }
+
+  /* Elegant serif headings */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 }
 

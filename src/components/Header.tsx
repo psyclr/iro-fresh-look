@@ -135,23 +135,24 @@ const Header = () => {
         { key: "archive", href: "/events#archive", description: "Архив событий" },
       ]
     },
-    { key: "gallery", href: "/gallery" }
+    { key: "gallery", href: "/gallery" },
+    { key: "blog", href: "/blog" }
   ];
 
   return (
     <header className="bg-white/95 backdrop-blur-md shadow-soft sticky top-0 z-50">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between py-4">
+        <div className="flex items-center justify-between py-5 md:py-6">
           {/* Логотип ИРО */}
             <Link to="/" className="flex items-center space-x-4 hover:opacity-80 transition-opacity">
               <div className="flex-shrink-0">
                 <img src={logo} alt="IRO Logo" className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 object-contain" />
               </div>
               <div className="hidden sm:block min-w-0">
-                <h1 className="text-base sm:text-lg md:text-xl font-bold text-primary leading-tight">
+                <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-primary leading-tight">
                   {t("hero.titleHighlight")}
                 </h1>
-                <p className="text-xs sm:text-sm text-muted-foreground">{t("hero.titleLine3")}</p>
+                <p className="text-sm sm:text-base text-muted-foreground">{t("hero.titleLine3")}</p>
               </div>
             </Link>
 
@@ -168,7 +169,7 @@ const Header = () => {
                     trigger={
                       <button
                         className={cn(
-                          "inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors",
+                          "inline-flex items-center justify-center rounded-md px-4 py-2.5 text-base font-medium transition-colors",
                           "hover:bg-accent/50 hover:text-accent-foreground",
                           "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
                           "group",
@@ -177,7 +178,7 @@ const Header = () => {
                         aria-label={t(`navigation.menu.${item.key}`)}
                       >
                         {t(`navigation.menu.${item.key}`)}
-                        <ChevronDown className="ml-1 h-3 w-3 transition-transform duration-200 group-data-[state=open]:rotate-180" aria-hidden="true" />
+                        <ChevronDown className="ml-1 h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" aria-hidden="true" />
                       </button>
                     }
                   >
@@ -186,7 +187,7 @@ const Header = () => {
                         <Link
                           to={subItem.href}
                           className={cn(
-                            "cursor-pointer px-3 py-2.5 text-sm transition-all duration-200",
+                            "cursor-pointer px-3 py-2.5 text-base transition-all duration-200",
                             "text-foreground/80 hover:text-primary hover:translate-x-1",
                             "relative after:absolute after:left-0 after:top-1/2 after:-translate-y-1/2",
                             "after:w-0 after:h-px after:bg-primary after:transition-all after:duration-200",
@@ -209,7 +210,7 @@ const Header = () => {
                   key={item.key}
                   to={item.href!}
                   className={cn(
-                    "inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors",
+                    "inline-flex items-center justify-center rounded-md px-4 py-2.5 text-base font-medium transition-colors",
                     "hover:bg-accent/50 hover:text-accent-foreground",
                     "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
                     isActive && "text-accent"
@@ -245,7 +246,7 @@ const Header = () => {
                     <div key={item.key} className="flex flex-col">
                       <Link
                         to={item.href!}
-                        className="px-4 py-2 text-primary font-medium hover:text-accent hover:bg-accent/5 rounded-lg transition-all"
+                        className="px-4 py-3 text-base text-primary font-medium hover:text-accent hover:bg-accent/5 rounded-lg transition-all"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         {t(`navigation.menu.${item.key}`)}
@@ -255,7 +256,7 @@ const Header = () => {
                           <Link
                             key={subItem.key}
                             to={subItem.href}
-                            className="px-4 py-1.5 text-sm text-foreground/70 hover:text-primary hover:bg-accent/5 rounded-lg transition-all"
+                            className="px-4 py-2 text-base text-foreground/70 hover:text-primary hover:bg-accent/5 rounded-lg transition-all"
                             onClick={() => setIsMenuOpen(false)}
                           >
                             {t(`navigation.submenu.${item.key}.${subItem.key}`)}
@@ -269,7 +270,7 @@ const Header = () => {
                   <Link
                     key={item.key}
                     to={item.href!}
-                    className="px-4 py-2 text-primary hover:text-accent hover:bg-accent/5 rounded-lg transition-all"
+                    className="px-4 py-3 text-base text-primary hover:text-accent hover:bg-accent/5 rounded-lg transition-all"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {t(`navigation.menu.${item.key}`)}
