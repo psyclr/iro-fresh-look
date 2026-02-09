@@ -25,7 +25,7 @@ const cityPositions: Record<string, { x: number; y: number }> = {
 };
 
 const BelarusMapScheme = ({ communities }: BelarusMapSchemeProps) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const language = (i18n.resolvedLanguage || i18n.language || "ru").split("-")[0];
   const [hoveredCity, setHoveredCity] = useState<string | null>(null);
   const [selectedCommunity, setSelectedCommunity] = useState<Community | null>(null);
@@ -58,7 +58,7 @@ const BelarusMapScheme = ({ communities }: BelarusMapSchemeProps) => {
           viewBox="150 100 900 1000"
           className="w-full h-full"
           role="img"
-          aria-label="Карта общин Беларуси"
+          aria-label={t("home.map.ariaLabel")}
         >
           {/* PNG контур Беларуси как SVG image */}
           <image

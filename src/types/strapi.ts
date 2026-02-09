@@ -31,35 +31,29 @@ export interface LocalizedField {
 // Article (Blog Post)
 export interface Article {
   id: number;
-  attributes: {
-    title: string;
-    slug: string;
-    content: BlocksContent;
-    excerpt: string;
-    published_at: string;
-    createdAt: string;
-    updatedAt: string;
-    locale: string;
-    cover_image: StrapiMedia;
-    category?: {
-      data: {
-        id: number;
-        attributes: {
-          name: string;
-          slug: string;
-        };
-      };
-    };
-    author?: string;
-    localizations?: {
-      data: Array<{
-        id: number;
-        attributes: {
-          locale: string;
-        };
-      }>;
+  documentId: string;
+  title: string;
+  slug: string;
+  content: string;
+  excerpt: string;
+  publishedAt: string;
+  createdAt: string;
+  updatedAt: string;
+  locale?: string;
+  cover_image: null | {
+    id: number;
+    url: string;
+    alternativeText: string | null;
+    width: number;
+    height: number;
+    formats?: {
+      thumbnail?: { url: string };
+      small?: { url: string };
+      medium?: { url: string };
+      large?: { url: string };
     };
   };
+  author?: string;
 }
 
 // News

@@ -22,12 +22,16 @@ if (!STRAPI_TOKEN) {
 async function fetchStrapi<T>(endpoint: string): Promise<T> {
   const url = `${STRAPI_URL}${endpoint}`;
 
-  const response = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${STRAPI_TOKEN}`,
-      'Content-Type': 'application/json',
-    },
-  });
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+  };
+
+  // Add authorization header only if token is provided
+  if (STRAPI_TOKEN && STRAPI_TOKEN !== 'REPLACE_WITH_YOUR_TOKEN_FROM_STRAPI_ADMIN') {
+    headers.Authorization = `Bearer ${STRAPI_TOKEN}`;
+  }
+
+  const response = await fetch(url, { headers });
 
   if (!response.ok) {
     throw new Error(`Strapi API error: ${response.status} ${response.statusText}`);
@@ -39,7 +43,7 @@ async function fetchStrapi<T>(endpoint: string): Promise<T> {
 // Articles (Blog Posts)
 export async function fetchArticles(locale: string): Promise<Article[]> {
   const response = await fetchStrapi<StrapiResponse<Article>>(
-    `/api/articles?locale=${locale}&populate=*&sort=published_at:desc`
+    `/api/articles?locale=${locale}&populate=*&sort=publishedAt:desc`
   );
   return response.data;
 }
@@ -57,7 +61,7 @@ export async function fetchArticleBySlug(
 
 export async function fetchFeaturedArticles(locale: string, limit = 3): Promise<Article[]> {
   const response = await fetchStrapi<StrapiResponse<Article>>(
-    `/api/articles?locale=${locale}&populate=*&sort=published_at:desc&pagination[limit]=${limit}`
+    `/api/articles?locale=${locale}&populate=*&sort=publishedAt:desc&pagination[limit]=${limit}`
   );
   return response.data;
 }

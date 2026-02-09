@@ -62,7 +62,7 @@ const Index = () => {
                       {t("home.map.title", "Наши общины")}
                     </h2>
                     <p className="text-sm text-muted-foreground">
-                      {t("home.map.subtitle2", "По всей Беларуси")}
+                      {t("home.map.subtitle")}
                     </p>
                   </div>
 
@@ -71,7 +71,7 @@ const Index = () => {
                     <div className="flex items-center gap-4">
                       <div className="flex-1">
                         <p className="text-xs text-muted-foreground mb-1">
-                          {t("home.stats.communities.label", "Общин")}
+                          {t("home.stats.communities")}
                         </p>
                         <p className="text-3xl font-bold text-primary">15+</p>
                       </div>
@@ -82,7 +82,7 @@ const Index = () => {
                     <div className="flex items-center gap-4">
                       <div className="flex-1">
                         <p className="text-xs text-muted-foreground mb-1">
-                          {t("home.stats.regions.label", "Регионов")}
+                          {t("home.stats.regions")}
                         </p>
                         <p className="text-3xl font-bold text-primary">6</p>
                       </div>
@@ -93,7 +93,7 @@ const Index = () => {
                     <div className="flex items-center gap-4">
                       <div className="flex-1">
                         <p className="text-xs text-muted-foreground mb-1">
-                          {t("home.stats.since.label", "С года")}
+                          {t("home.stats.since")}
                         </p>
                         <p className="text-3xl font-bold text-primary">1990</p>
                       </div>
@@ -104,7 +104,7 @@ const Index = () => {
                     <div className="flex items-center gap-4">
                       <div className="flex-1">
                         <p className="text-xs text-muted-foreground mb-1">
-                          {t("home.stats.events.label", "Мероприятий в год")}
+                          {t("home.stats.events")}
                         </p>
                         <p className="text-3xl font-bold text-primary">100+</p>
                       </div>

@@ -218,13 +218,15 @@ async function seedInitialData(strapi: Core.Strapi) {
   for (const community of communities) {
     try {
       // Remove empty string fields to avoid validation errors
-      const data: any = { ...community };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Strapi entityService requires flexible typing for optional fields
+      const data: Record<string, any> = { ...community };
       if (!data.email) delete data.email;
       if (!data.phone) delete data.phone;
       if (!data.leader) delete data.leader;
 
       await strapi.entityService.create('api::community.community', {
-        data: { ...data, publishedAt: new Date() },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dynamic data after optional field removal
+        data: { ...data, publishedAt: new Date() } as any,
       });
       console.log(`  ✅ ${community.name}`);
     } catch (error) {

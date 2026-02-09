@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Calendar, Clock, ArrowRight, Loader2 } from 'lucide-react';
+import { Calendar, ArrowRight, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { ru, enUS } from 'date-fns/locale';
 
@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 import { useArticles } from '@/hooks/useStrapi';
-import { getStrapiImageUrl, getStrapiUrl } from '@/types/strapi';
+import { getStrapiUrl } from '@/types/strapi';
 
 const Blog = () => {
   const { t, i18n } = useTranslation();
@@ -72,13 +72,14 @@ const Blog = () => {
         ) : (
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {articles.map((article) => {
-              const coverImageUrl = getStrapiImageUrl(article.attributes.cover_image, 'medium');
-              const publishedDate = new Date(article.attributes.published_at);
+              const coverImage = article.cover_image;
+              const coverImageUrl = coverImage?.formats?.medium?.url || coverImage?.url;
+              const publishedDate = new Date(article.publishedAt);
 
               return (
                 <Link
                   key={article.id}
-                  to={`/blog/${article.attributes.slug}`}
+                  to={`/blog/${article.slug}`}
                   className="group"
                 >
                   <Card className="h-full overflow-hidden transition-shadow hover:shadow-lg">
@@ -86,7 +87,7 @@ const Blog = () => {
                       <div className="aspect-video overflow-hidden">
                         <img
                           src={getStrapiUrl(coverImageUrl)}
-                          alt={article.attributes.title}
+                          alt={article.title}
                           className="w-full h-full object-cover transition-transform group-hover:scale-105"
                           loading="lazy"
                         />
@@ -97,25 +98,25 @@ const Blog = () => {
                       <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
                         <div className="flex items-center gap-1">
                           <Calendar className="h-4 w-4" />
-                          <time dateTime={article.attributes.published_at}>
+                          <time dateTime={article.publishedAt}>
                             {format(publishedDate, 'dd MMMM yyyy', { locale })}
                           </time>
                         </div>
 
-                        {article.attributes.category?.data && (
+                        {article.author && (
                           <Badge variant="secondary">
-                            {article.attributes.category.data.attributes.name}
+                            {article.author}
                           </Badge>
                         )}
                       </div>
 
                       <h2 className="text-2xl font-semibold mb-2 group-hover:text-primary transition-colors">
-                        {article.attributes.title}
+                        {article.title}
                       </h2>
 
-                      {article.attributes.excerpt && (
+                      {article.excerpt && (
                         <p className="text-muted-foreground line-clamp-3">
-                          {article.attributes.excerpt}
+                          {article.excerpt}
                         </p>
                       )}
                     </CardHeader>
