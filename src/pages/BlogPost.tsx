@@ -8,12 +8,11 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import StrapiContent from '@/components/StrapiContent';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 import { useArticleBySlug, useFeaturedArticles } from '@/hooks/useStrapi';
-import { getStrapiImageUrl, getStrapiUrl } from '@/types/strapi';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { getStrapiUrl } from '@/types/strapi';
+import { Card, CardHeader } from '@/components/ui/card';
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -46,15 +45,15 @@ const BlogPost = () => {
         <Header />
         <main className="container mx-auto px-4 py-20">
           <Alert variant="destructive">
-            <AlertTitle>{t('blog.articleNotFound')}</AlertTitle>
+            <AlertTitle>{t('news.articleNotFound')}</AlertTitle>
             <AlertDescription>
-              {error instanceof Error ? error.message : t('blog.articleNotFoundDescription')}
+              {error instanceof Error ? error.message : t('news.articleNotFoundDescription')}
             </AlertDescription>
           </Alert>
           <div className="mt-6">
-            <Button onClick={() => navigate('/blog')} variant="outline">
+            <Button onClick={() => navigate('/news')} variant="outline">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              {t('blog.backToList')}
+              {t('news.backToList')}
             </Button>
           </div>
         </main>
@@ -63,8 +62,10 @@ const BlogPost = () => {
     );
   }
 
-  const coverImageUrl = getStrapiImageUrl(article.attributes.cover_image, 'large');
-  const publishedDate = new Date(article.attributes.published_at);
+  // Strapi v5 flat format — no .attributes wrapper
+  const coverImage = article.cover_image;
+  const coverImageUrl = coverImage?.formats?.large?.url || coverImage?.url;
+  const publishedDate = new Date(article.publishedAt);
 
   return (
     <div className="min-h-screen bg-background">
@@ -73,9 +74,9 @@ const BlogPost = () => {
       <main className="container mx-auto px-4 py-12">
         {/* Back Button */}
         <div className="mb-8">
-          <Button onClick={() => navigate('/blog')} variant="ghost" size="sm">
+          <Button onClick={() => navigate('/news')} variant="ghost" size="sm">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            {t('blog.backToList')}
+            {t('news.backToList')}
           </Button>
         </div>
 
@@ -86,7 +87,7 @@ const BlogPost = () => {
             <div className="aspect-video overflow-hidden rounded-lg mb-8">
               <img
                 src={getStrapiUrl(coverImageUrl)}
-                alt={article.attributes.title}
+                alt={article.title}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -97,39 +98,33 @@ const BlogPost = () => {
             <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
               <div className="flex items-center gap-1">
                 <Calendar className="h-4 w-4" />
-                <time dateTime={article.attributes.published_at}>
+                <time dateTime={article.publishedAt}>
                   {format(publishedDate, 'dd MMMM yyyy', { locale })}
                 </time>
               </div>
 
-              {article.attributes.author && (
+              {article.author && (
                 <div className="flex items-center gap-1">
                   <User className="h-4 w-4" />
-                  <span>{article.attributes.author}</span>
+                  <span>{article.author}</span>
                 </div>
-              )}
-
-              {article.attributes.category?.data && (
-                <Badge variant="secondary">
-                  {article.attributes.category.data.attributes.name}
-                </Badge>
               )}
             </div>
 
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              {article.attributes.title}
+              {article.title}
             </h1>
 
-            {article.attributes.excerpt && (
+            {article.excerpt && (
               <p className="text-xl text-muted-foreground">
-                {article.attributes.excerpt}
+                {article.excerpt}
               </p>
             )}
           </div>
 
           {/* Article Content */}
           <div className="prose prose-lg max-w-none">
-            <StrapiContent content={article.attributes.content} />
+            <StrapiContent content={article.content} />
           </div>
 
           {/* Divider */}
@@ -138,21 +133,19 @@ const BlogPost = () => {
           {/* Related Articles */}
           {relatedArticles && relatedArticles.length > 0 && (
             <div>
-              <h2 className="text-2xl font-bold mb-6">{t('blog.relatedArticles')}</h2>
+              <h2 className="text-2xl font-bold mb-6">{t('news.relatedArticles')}</h2>
               <div className="grid gap-6 md:grid-cols-3">
                 {relatedArticles
                   .filter((related) => related.id !== article.id)
                   .slice(0, 3)
                   .map((related) => {
-                    const relatedImageUrl = getStrapiImageUrl(
-                      related.attributes.cover_image,
-                      'small'
-                    );
+                    const relatedCover = related.cover_image;
+                    const relatedImageUrl = relatedCover?.formats?.small?.url || relatedCover?.url;
 
                     return (
                       <Link
                         key={related.id}
-                        to={`/blog/${related.attributes.slug}`}
+                        to={`/news/${related.slug}`}
                         className="group"
                       >
                         <Card className="h-full overflow-hidden transition-shadow hover:shadow-lg">
@@ -160,7 +153,7 @@ const BlogPost = () => {
                             <div className="aspect-video overflow-hidden">
                               <img
                                 src={getStrapiUrl(relatedImageUrl)}
-                                alt={related.attributes.title}
+                                alt={related.title}
                                 className="w-full h-full object-cover transition-transform group-hover:scale-105"
                                 loading="lazy"
                               />
@@ -168,11 +161,11 @@ const BlogPost = () => {
                           )}
                           <CardHeader>
                             <h3 className="font-semibold group-hover:text-primary transition-colors line-clamp-2">
-                              {related.attributes.title}
+                              {related.title}
                             </h3>
-                            {related.attributes.excerpt && (
+                            {related.excerpt && (
                               <p className="text-sm text-muted-foreground line-clamp-2">
-                                {related.attributes.excerpt}
+                                {related.excerpt}
                               </p>
                             )}
                           </CardHeader>

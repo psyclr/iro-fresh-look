@@ -4,43 +4,70 @@
   "info": {
     "singularName": "project",
     "pluralName": "projects",
-    "displayName": "Project",
-    "description": "IRO projects and initiatives"
+    "displayName": "Проекты",
+    "description": "Проекты и инициативы ИРО"
   },
   "options": {
     "draftAndPublish": true
   },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
   "attributes": {
     "title": {
       "type": "string",
-      "required": true
+      "required": true,
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
     },
     "slug": {
       "type": "uid",
-      "targetField": "title"
+      "targetField": "title",
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
     },
     "description": {
-      "type": "text"
+      "type": "text",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
     },
     "content": {
-      "type": "richtext"
+      "type": "richtext",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
     },
     "icon": {
-      "type": "string"
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
     },
-    "image": {
+    "images": {
       "type": "media",
-      "multiple": false,
-      "allowedTypes": ["images"]
+      "multiple": true,
+      "allowedTypes": ["images"],
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
+    },
+    "external_link": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
     },
     "order": {
       "type": "integer",
-      "default": 0
-    },
-    "locale": {
-      "type": "enumeration",
-      "enum": ["ru", "en"],
-      "default": "ru"
+      "default": 0,
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
     }
   }
 }

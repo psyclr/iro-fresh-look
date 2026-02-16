@@ -1,66 +1,62 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { Community } from "@/lib/communities";
-import { getLocalizedField } from "@/lib/communities";
+import type { StrapiCommunity, CommunityRegion } from "@/types/strapi";
 import belarusOutline from "@/assets/belarus-outline.png";
-import CommunityDrawer from "@/components/CommunityDrawer";
+import { MapPin, Phone, Mail, User, Users, Globe } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface BelarusMapSchemeProps {
-  communities: Community[];
+  communities: StrapiCommunity[];
 }
 
-// SVG координаты для городов на карте Беларуси
-// ViewBox: 0 0 1201 1201 (совпадает с размером PNG)
-// Координаты получены через click handler на реальной карте
-const cityPositions: Record<string, { x: number; y: number }> = {
-  "minsk": { x: 600, y: 600 },       // центр страны (где менорра) ✓
-  "brest": { x: 168, y: 854 },       // крайний юго-запад ✓
-  "grodno": { x: 172, y: 572 },      // северо-запад ✓
-  "gomel": { x: 935, y: 806 },       // юго-восток ✓
-  "vitebsk": { x: 950, y: 310 },     // северо-восток ✓
-  "mogilev": { x: 923, y: 552 },     // восток (на уровне Минска) ✓
-  "orsha": { x: 881, y: 426 },       // между Минском и Витебском ✓
-  "polotsk": { x: 706, y: 279 },     // крайний север ✓
-  "bobruisk": { x: 774, y: 718 },    // между Минском и Гомелем ✓
+// SVG coordinates for regions on the map
+// ViewBox: 0 0 1201 1201 (matches PNG dimensions)
+const regionPositions: Record<CommunityRegion, { x: number; y: number }> = {
+  minsk: { x: 600, y: 600 },
+  brest: { x: 168, y: 854 },
+  grodno: { x: 172, y: 572 },
+  vitebsk: { x: 760, y: 310 },
+  gomel: { x: 935, y: 806 },
+  mogilev: { x: 923, y: 552 },
 };
 
 const BelarusMapScheme = ({ communities }: BelarusMapSchemeProps) => {
-  const { t, i18n } = useTranslation();
-  const language = (i18n.resolvedLanguage || i18n.language || "ru").split("-")[0];
-  const [hoveredCity, setHoveredCity] = useState<string | null>(null);
-  const [selectedCommunity, setSelectedCommunity] = useState<Community | null>(null);
+  const { t } = useTranslation();
+  const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<CommunityRegion | null>(null);
 
-  const getCityId = (community: Community): string => {
-    return community.id.split("-")[0]; // "minsk-beis-isroel" → "minsk"
+  const getCommunitiesByRegion = (region: CommunityRegion) => {
+    return communities.filter(c => c.region === region);
   };
 
-  const getCityPosition = (community: Community) => {
-    const cityId = getCityId(community);
-    return cityPositions[cityId] || { x: 300, y: 200 };
+  const handleRegionClick = (region: CommunityRegion) => {
+    setSelectedRegion(region);
   };
 
-  const handleCityClick = (community: Community) => {
-    setSelectedCommunity(community);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent, community: Community) => {
+  const handleKeyDown = (e: React.KeyboardEvent, region: CommunityRegion) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      handleCityClick(community);
+      handleRegionClick(region);
     }
   };
+
+  const regions: CommunityRegion[] = ["minsk", "brest", "grodno", "vitebsk", "gomel", "mogilev"];
 
   return (
     <>
       <div className="relative w-full" style={{ aspectRatio: '1/1' }}>
-        {/* SVG карта с контуром и маркерами */}
         <svg
-          viewBox="150 100 900 1000"
+          viewBox="0 0 1201 1201"
           className="w-full h-full"
           role="img"
           aria-label={t("home.map.ariaLabel")}
         >
-          {/* PNG контур Беларуси как SVG image */}
+          {/* PNG outline of Belarus */}
           <image
             href={belarusOutline}
             x="0"
@@ -73,37 +69,39 @@ const BelarusMapScheme = ({ communities }: BelarusMapSchemeProps) => {
             }}
           />
 
-          {/* Маркеры городов */}
-          {communities.map((community) => {
-            const pos = getCityPosition(community);
-            const cityId = getCityId(community);
-            const isHovered = hoveredCity === cityId;
-            const isSelected = selectedCommunity?.id === community.id;
+          {/* Region markers */}
+          {regions.map((region) => {
+            const pos = regionPositions[region];
+            const regionCommunities = getCommunitiesByRegion(region);
+            const communityCount = regionCommunities.length;
+            const isHovered = hoveredRegion === region;
+            const isSelected = selectedRegion === region;
+            const regionName = t(`home.map.regions.${region}`);
 
             return (
-              <g key={community.id}>
-                {/* Невидимая увеличенная область для клика (hit area) */}
+              <g key={region}>
+                {/* Invisible hit area */}
                 <circle
                   cx={pos.x}
                   cy={pos.y}
-                  r={40}
+                  r={50}
                   fill="transparent"
                   className="cursor-pointer focus:outline-none"
-                  onMouseEnter={() => setHoveredCity(cityId)}
-                  onMouseLeave={() => setHoveredCity(null)}
-                  onClick={() => handleCityClick(community)}
-                  onKeyDown={(e) => handleKeyDown(e, community)}
+                  onMouseEnter={() => setHoveredRegion(region)}
+                  onMouseLeave={() => setHoveredRegion(null)}
+                  onClick={() => handleRegionClick(region)}
+                  onKeyDown={(e) => handleKeyDown(e, region)}
                   tabIndex={0}
                   role="button"
-                  aria-label={`${getLocalizedField(community.city, language)} - ${getLocalizedField(community.communityName, language)}`}
-                  aria-pressed={selectedCommunity?.id === community.id}
+                  aria-label={`${regionName} — ${communityCount} ${communityCount === 1 ? 'община' : 'общин'}`}
+                  aria-pressed={isSelected}
                 />
 
-                {/* Точка города с улучшенной интерактивностью */}
+                {/* Region circle marker */}
                 <circle
                   cx={pos.x}
                   cy={pos.y}
-                  r={isHovered || isSelected ? 26 : 20}
+                  r={isHovered || isSelected ? 35 : 30}
                   fill="currentColor"
                   className={`pointer-events-none transition-all duration-200 ${
                     isSelected
@@ -114,28 +112,38 @@ const BelarusMapScheme = ({ communities }: BelarusMapSchemeProps) => {
                   }`}
                   style={{
                     filter: isHovered || isSelected
-                      ? 'drop-shadow(0 2px 8px rgba(29, 78, 216, 0.3))'
-                      : 'drop-shadow(0 1px 3px rgba(0, 0, 0, 0.15))'
+                      ? 'drop-shadow(0 3px 10px rgba(29, 78, 216, 0.4))'
+                      : 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.15))'
                   }}
                 />
 
-                {/* Название города - под точкой */}
+                {/* Community count inside circle */}
                 <text
                   x={pos.x}
-                  y={pos.y + 38}
+                  y={pos.y + 6}
                   textAnchor="middle"
-                  className={`text-xl font-semibold pointer-events-none transition-all duration-200 ${
+                  className="pointer-events-none fill-white text-xl font-bold"
+                >
+                  {communityCount}
+                </text>
+
+                {/* Region name to the right of circle */}
+                <text
+                  x={pos.x + 42}
+                  y={pos.y + 8}
+                  textAnchor="start"
+                  className={`text-lg font-bold pointer-events-none transition-all duration-200 ${
                     isHovered || isSelected ? "fill-primary" : "fill-foreground"
                   }`}
                   style={{
                     paintOrder: 'stroke fill',
                     stroke: 'white',
-                    strokeWidth: '3',
+                    strokeWidth: '4',
                     strokeLinejoin: 'round',
                     strokeLinecap: 'round'
                   }}
                 >
-                  {getLocalizedField(community.city, language)}
+                  {regionName}
                 </text>
               </g>
             );
@@ -143,21 +151,118 @@ const BelarusMapScheme = ({ communities }: BelarusMapSchemeProps) => {
         </svg>
       </div>
 
-      {/* SEO spacer - invisible keywords */}
-      <div className="hidden opacity-0 select-none pointer-events-none" aria-hidden="true">
-        <span>
-          еврейская община Беларуси иудаизм синагога Минск Брест Гродно Витебск Гомель Могилев
-          Jewish community Belarus synagogue Minsk kosher Judaism Torah Shabbat
-          религиозная община традиции праздники культура наследие
-        </span>
-      </div>
+      {/* Region Communities Dialog */}
+      <Dialog open={!!selectedRegion} onOpenChange={() => setSelectedRegion(null)}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+          {selectedRegion && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-2xl">
+                  {t(`community.filters.${selectedRegion}`)}
+                </DialogTitle>
+              </DialogHeader>
 
-      {/* Community Drawer */}
-      <CommunityDrawer
-        community={selectedCommunity}
-        isOpen={!!selectedCommunity}
-        onClose={() => setSelectedCommunity(null)}
-      />
+              <div className="mt-4 space-y-6">
+                {getCommunitiesByRegion(selectedRegion).map((community) => (
+                  <div
+                    key={community.id}
+                    className="rounded-xl border bg-card p-6 space-y-4"
+                  >
+                    <div>
+                      <h3 className="text-xl font-bold text-primary">
+                        {community.community_name}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {community.name}
+                      </p>
+                    </div>
+
+                    {community.description && (
+                      <p className="text-muted-foreground leading-relaxed">
+                        {community.description}
+                      </p>
+                    )}
+
+                    {/* Contact info */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                      {community.leader && (
+                        <div className="flex items-center gap-2">
+                          <User className="w-4 h-4 text-primary shrink-0" />
+                          <span>{community.leader}</span>
+                        </div>
+                      )}
+                      {community.address && (
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-4 h-4 text-primary shrink-0" />
+                          <span>{community.address}</span>
+                        </div>
+                      )}
+                      {community.phone && (
+                        <div className="flex items-center gap-2">
+                          <Phone className="w-4 h-4 text-primary shrink-0" />
+                          <a href={`tel:${community.phone}`} className="text-primary hover:underline">
+                            {community.phone}
+                          </a>
+                        </div>
+                      )}
+                      {community.email && (
+                        <div className="flex items-center gap-2">
+                          <Mail className="w-4 h-4 text-primary shrink-0" />
+                          <a href={`mailto:${community.email}`} className="text-primary hover:underline break-all">
+                            {community.email}
+                          </a>
+                        </div>
+                      )}
+                      {community.member_count && (
+                        <div className="flex items-center gap-2">
+                          <Users className="w-4 h-4 text-primary shrink-0" />
+                          <span>{community.member_count} {t('communityDrawer.info.members')}</span>
+                        </div>
+                      )}
+                      {community.languages && community.languages.length > 0 && (
+                        <div className="flex items-center gap-2">
+                          <Globe className="w-4 h-4 text-primary shrink-0" />
+                          <span>{community.languages.join(', ')}</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Programs */}
+                    {community.programs && community.programs.length > 0 && (
+                      <div className="pt-2 border-t">
+                        <h4 className="text-sm font-semibold mb-2">{t('communityDrawer.programs.title')}</h4>
+                        <div className="space-y-2">
+                          {community.programs.map((program) => (
+                            <div key={program.id} className="bg-muted/50 rounded-lg p-3">
+                              <p className="font-medium text-sm">{program.name}</p>
+                              {program.description && (
+                                <p className="text-xs text-muted-foreground mt-1">
+                                  {program.description}
+                                </p>
+                              )}
+                              {program.schedule && (
+                                <p className="text-xs text-primary mt-1">
+                                  {program.schedule}
+                                </p>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+
+                {getCommunitiesByRegion(selectedRegion).length === 0 && (
+                  <p className="text-muted-foreground text-center py-8">
+                    {t('community.empty')}
+                  </p>
+                )}
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

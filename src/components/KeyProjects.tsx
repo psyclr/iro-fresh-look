@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { Newspaper, Landmark, GraduationCap, HandHeart } from "lucide-react";
 
 const KeyProjects = () => {
@@ -10,28 +11,32 @@ const KeyProjects = () => {
       title: t("mission.pillars.publication.title"),
       description: t("mission.pillars.publication.description"),
       gradient: "from-blue-500/10 to-blue-600/5",
-      iconColor: "text-blue-600"
+      iconColor: "text-blue-600",
+      href: "/news#archive",
     },
     {
       icon: Landmark,
       title: t("mission.pillars.lapidary.title"),
       description: t("mission.pillars.lapidary.description"),
       gradient: "from-amber-500/10 to-amber-600/5",
-      iconColor: "text-amber-600"
+      iconColor: "text-amber-600",
+      href: "/projects#lapidarium",
     },
     {
       icon: GraduationCap,
       title: t("mission.pillars.heritage.title"),
       description: t("mission.pillars.heritage.description"),
       gradient: "from-purple-500/10 to-purple-600/5",
-      iconColor: "text-purple-600"
+      iconColor: "text-purple-600",
+      href: "/projects#center",
     },
     {
       icon: HandHeart,
       title: t("mission.pillars.support.title"),
       description: t("mission.pillars.support.description"),
       gradient: "from-rose-500/10 to-rose-600/5",
-      iconColor: "text-rose-600"
+      iconColor: "text-rose-600",
+      href: "/projects#humanitarian",
     }
   ];
 
@@ -49,8 +54,9 @@ const KeyProjects = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {projects.map((project, index) => (
-            <div
+            <Link
               key={index}
+              to={project.href}
               className="group relative bg-white rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-lg transition-all duration-300"
             >
               <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
@@ -69,7 +75,7 @@ const KeyProjects = () => {
                   </p>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

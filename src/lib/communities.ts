@@ -56,7 +56,7 @@ export interface Community {
   languages?: string[]; // Языки служб (например: ["русский", "иврит"])
 }
 
-const COMMUNITY_DATA: Community[] = [
+export const COMMUNITY_DATA: Community[] = [
   {
     id: "minsk-beis-isroel",
     region: "minsk",
@@ -536,6 +536,116 @@ const COMMUNITY_DATA: Community[] = [
     },
     leader: "Давид Гринберг",
     phone: "+375 (44) 987-65-43",
+  },
+  {
+    id: "mozyr-community",
+    region: "gomel",
+    coordinates: [52.0451, 29.2456],
+    city: {
+      ru: "Мозырь",
+      en: "Mozyr",
+    },
+    communityName: {
+      ru: "Мозырская община",
+      en: "Mozyr community",
+    },
+    description: {
+      ru: "Поддерживает еврейские традиции и культурное наследие в Полесском регионе",
+      en: "Preserves Jewish traditions and cultural heritage in the Polesie region",
+    },
+    address: {
+      ru: "г. Мозырь",
+      en: "Mozyr",
+    },
+    leader: "Контакт через центральный офис",
+  },
+  {
+    id: "bykhov-community",
+    region: "mogilev",
+    coordinates: [53.5314, 30.2472],
+    city: {
+      ru: "Быхов",
+      en: "Bykhov",
+    },
+    communityName: {
+      ru: "Быховская община",
+      en: "Bykhov community",
+    },
+    description: {
+      ru: "Сохраняет память о еврейской истории и наследии Быхова",
+      en: "Preserves the memory of Jewish history and heritage in Bykhov",
+    },
+    address: {
+      ru: "г. Быхов",
+      en: "Bykhov",
+    },
+    leader: "Контакт через центральный офис",
+  },
+  {
+    id: "klimovichi-community",
+    region: "mogilev",
+    coordinates: [53.6117, 31.9583],
+    city: {
+      ru: "Климовичи",
+      en: "Klimovichi",
+    },
+    communityName: {
+      ru: "Климовичская община",
+      en: "Klimovichi community",
+    },
+    description: {
+      ru: "Объединяет еврейские семьи Климовичского района",
+      en: "Unites Jewish families of the Klimovichi district",
+    },
+    address: {
+      ru: "г. Климовичи",
+      en: "Klimovichi",
+    },
+    leader: "Контакт через центральный офис",
+  },
+  {
+    id: "kalinkovichi-community",
+    region: "gomel",
+    coordinates: [52.1283, 29.3267],
+    city: {
+      ru: "Калинковичи",
+      en: "Kalinkovichi",
+    },
+    communityName: {
+      ru: "Калинковичская община",
+      en: "Kalinkovichi community",
+    },
+    description: {
+      ru: "Развивает общинную жизнь и сохраняет еврейские традиции в Калинковичах",
+      en: "Develops community life and preserves Jewish traditions in Kalinkovichi",
+    },
+    address: {
+      ru: "г. Калинковичи",
+      en: "Kalinkovichi",
+    },
+    leader: "Контакт через центральный офис",
+  },
+  {
+    id: "molodechno-community",
+    region: "minsk",
+    coordinates: [54.3089, 26.8542],
+    city: {
+      ru: "Молодечно",
+      en: "Molodechno",
+    },
+    communityName: {
+      ru: "Молодечненская община",
+      en: "Molodechno community",
+    },
+    description: {
+      ru: "Поддерживает связь еврейских семей региона и организует культурные мероприятия",
+      en: "Connects Jewish families in the region and organises cultural events",
+    },
+    address: {
+      ru: "г. Молодечно",
+      en: "Molodechno",
+    },
+    leader: "Контакт через центральный офис",
   },
 ];
 

@@ -4,51 +4,165 @@
   "info": {
     "singularName": "community",
     "pluralName": "communities",
-    "displayName": "Community",
-    "description": "Jewish communities across Belarus"
+    "displayName": "Общины",
+    "description": "Еврейские общины Беларуси"
   },
   "options": {
     "draftAndPublish": true
   },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
   "attributes": {
     "name": {
       "type": "string",
-      "required": true
+      "required": true,
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
     },
     "slug": {
       "type": "uid",
       "targetField": "name",
-      "required": true
+      "required": true,
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
     },
     "community_name": {
       "type": "string",
-      "required": true
+      "required": true,
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
     },
     "description": {
-      "type": "text"
+      "type": "text",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
+    },
+    "region": {
+      "type": "enumeration",
+      "enum": ["minsk", "brest", "grodno", "vitebsk", "gomel", "mogilev"],
+      "required": true,
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
     },
     "leader": {
-      "type": "string"
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
     },
     "phone": {
-      "type": "string"
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
     },
     "email": {
-      "type": "email"
+      "type": "email",
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
     },
     "address": {
-      "type": "string"
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
     },
     "coordinates": {
       "type": "json",
-      "required": true
+      "required": true,
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
     },
     "website": {
-      "type": "string"
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
+    },
+    "member_count": {
+      "type": "integer",
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
+    },
+    "languages": {
+      "type": "json",
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
+    },
+    "founded_year": {
+      "type": "integer",
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
+    },
+    "history_facts": {
+      "type": "json",
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
+    },
+    "shabbat_candle_lighting": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
+    },
+    "shabbat_havdalah": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
+    },
+    "shabbat_note": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
+    },
+    "programs": {
+      "type": "component",
+      "repeatable": true,
+      "component": "community.program",
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
+    },
+    "building_photo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"],
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
+    },
+    "event_photos": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": ["images"],
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
     },
     "order": {
       "type": "integer",
-      "default": 0
+      "default": 0,
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
     }
   }
 }

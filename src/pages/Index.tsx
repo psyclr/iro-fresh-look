@@ -1,6 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Helmet } from "react-helmet-async";
 
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
@@ -9,17 +10,62 @@ import BelarusMapScheme from '@/components/BelarusMapScheme';
 import KeyProjects from '@/components/KeyProjects';
 import DonationBanner from '@/components/DonationBanner';
 import Footer from '@/components/Footer';
-import { fetchCommunities } from "@/lib/communities";
+import { useStrapiCommunities, useSettings } from "@/hooks/useStrapi";
+import { COMMUNITY_DATA, getLocalizedField } from "@/lib/communities";
+import type { StrapiCommunity } from "@/types/strapi";
 
 const Index = () => {
-  const { t } = useTranslation();
-  const { data: communities = [], isLoading } = useQuery({
-    queryKey: ["communities"],
-    queryFn: fetchCommunities,
-  });
+  const { t, i18n } = useTranslation();
+  const language = (i18n.resolvedLanguage || i18n.language || 'ru').split('-')[0];
+  const { data: strapiCommunities, isLoading } = useStrapiCommunities();
+  const { data: settings } = useSettings();
+
+  // Fallback: convert static data to StrapiCommunity format
+  const fallbackCommunities = useMemo<StrapiCommunity[]>(() =>
+    COMMUNITY_DATA.map((c, idx) => ({
+      id: idx + 1,
+      documentId: c.id,
+      name: getLocalizedField(c.city, language),
+      slug: c.id,
+      community_name: getLocalizedField(c.communityName, language),
+      description: getLocalizedField(c.description, language),
+      region: c.region,
+      locale: language,
+      leader: c.leader,
+      phone: c.phone,
+      email: c.email,
+      address: c.address ? getLocalizedField(c.address, language) : undefined,
+      coordinates: c.coordinates,
+      website: c.website,
+      member_count: c.memberCount,
+      languages: c.languages,
+      founded_year: c.history?.founded,
+      history_facts: c.history?.facts.map(f => getLocalizedField(f, language)),
+      shabbat_candle_lighting: c.shabbatSchedule?.candleLighting,
+      shabbat_havdalah: c.shabbatSchedule?.havdalah,
+      shabbat_note: c.shabbatSchedule?.note ? getLocalizedField(c.shabbatSchedule.note, language) : undefined,
+      programs: c.programs?.map((p, i) => ({
+        id: i + 1,
+        name: getLocalizedField(p.name, language),
+        description: getLocalizedField(p.description, language),
+        category: p.category,
+        schedule: p.schedule ? getLocalizedField(p.schedule, language) : undefined,
+        contact_person: p.contactPerson,
+      })),
+      building_photo: null,
+      event_photos: null,
+      order: idx,
+      publishedAt: new Date().toISOString(),
+    })),
+  [language]);
+
+  const communities = (strapiCommunities && strapiCommunities.length > 0)
+    ? strapiCommunities
+    : fallbackCommunities;
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet><title>{t("hero.titleHighlight")} — {t("hero.titleLine3")}</title></Helmet>
       <Header />
 
       {/* Candle Lighting - wide bar below header */}
@@ -71,9 +117,9 @@ const Index = () => {
                     <div className="flex items-center gap-4">
                       <div className="flex-1">
                         <p className="text-xs text-muted-foreground mb-1">
-                          {t("home.stats.communities")}
+                          {settings?.stats_communities_label || t("home.stats.communities")}
                         </p>
-                        <p className="text-3xl font-bold text-primary">15+</p>
+                        <p className="text-3xl font-bold text-primary">{settings?.stats_communities_value || "15+"}</p>
                       </div>
                     </div>
 
@@ -82,9 +128,9 @@ const Index = () => {
                     <div className="flex items-center gap-4">
                       <div className="flex-1">
                         <p className="text-xs text-muted-foreground mb-1">
-                          {t("home.stats.regions")}
+                          {settings?.stats_regions_label || t("home.stats.regions")}
                         </p>
-                        <p className="text-3xl font-bold text-primary">6</p>
+                        <p className="text-3xl font-bold text-primary">{settings?.stats_regions_value || "6"}</p>
                       </div>
                     </div>
 
@@ -93,9 +139,9 @@ const Index = () => {
                     <div className="flex items-center gap-4">
                       <div className="flex-1">
                         <p className="text-xs text-muted-foreground mb-1">
-                          {t("home.stats.since")}
+                          {settings?.stats_founded_label || t("home.stats.since")}
                         </p>
-                        <p className="text-3xl font-bold text-primary">1990</p>
+                        <p className="text-3xl font-bold text-primary">{settings?.stats_founded_value || "1990"}</p>
                       </div>
                     </div>
 
@@ -104,9 +150,9 @@ const Index = () => {
                     <div className="flex items-center gap-4">
                       <div className="flex-1">
                         <p className="text-xs text-muted-foreground mb-1">
-                          {t("home.stats.events")}
+                          {settings?.stats_events_label || t("home.stats.events")}
                         </p>
-                        <p className="text-3xl font-bold text-primary">100+</p>
+                        <p className="text-3xl font-bold text-primary">{settings?.stats_events_value || "100+"}</p>
                       </div>
                     </div>
                   </div>

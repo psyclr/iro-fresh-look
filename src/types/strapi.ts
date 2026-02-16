@@ -34,7 +34,7 @@ export interface Article {
   documentId: string;
   title: string;
   slug: string;
-  content: string;
+  content: BlocksContent;
   excerpt: string;
   publishedAt: string;
   createdAt: string;
@@ -123,6 +123,189 @@ export interface Page {
       }>;
     };
   };
+}
+
+// Newspaper Issue
+export interface NewspaperIssue {
+  id: number;
+  documentId: string;
+  title: string;
+  issue_number?: number;
+  date: string;
+  description?: string;
+  publishedAt: string;
+  cover_image: null | {
+    id: number;
+    url: string;
+    alternativeText: string | null;
+    width: number;
+    height: number;
+    formats?: {
+      thumbnail?: { url: string };
+      small?: { url: string };
+      medium?: { url: string };
+      large?: { url: string };
+    };
+  };
+  pdf_file: null | {
+    id: number;
+    url: string;
+    name: string;
+    size: number;
+  };
+}
+
+// Poster Event
+export interface PosterEvent {
+  id: number;
+  documentId: string;
+  title: string;
+  date: string;
+  location?: string;
+  description?: string;
+  publishedAt: string;
+  image: null | {
+    id: number;
+    url: string;
+    alternativeText: string | null;
+    width: number;
+    height: number;
+    formats?: {
+      thumbnail?: { url: string };
+      small?: { url: string };
+      medium?: { url: string };
+      large?: { url: string };
+    };
+  };
+}
+
+// Community Region
+export type CommunityRegion = 'minsk' | 'brest' | 'grodno' | 'vitebsk' | 'gomel' | 'mogilev';
+
+// Community Program (Strapi component)
+export interface StrapiCommunityProgram {
+  id: number;
+  name: string;
+  description?: string;
+  category: 'education' | 'social' | 'religious' | 'cultural' | 'youth';
+  schedule?: string;
+  contact_person?: string;
+}
+
+// Community
+export interface StrapiCommunity {
+  id: number;
+  documentId: string;
+  name: string;
+  slug: string;
+  community_name: string;
+  description?: string;
+  region: CommunityRegion;
+  locale?: string;
+  leader?: string;
+  phone?: string;
+  email?: string;
+  address?: string;
+  coordinates: [number, number];
+  website?: string;
+  member_count?: number;
+  languages?: string[];
+  founded_year?: number;
+  history_facts?: string[];
+  shabbat_candle_lighting?: string;
+  shabbat_havdalah?: string;
+  shabbat_note?: string;
+  programs?: StrapiCommunityProgram[];
+  building_photo?: StrapiImage | null;
+  event_photos?: StrapiImage[] | null;
+  order: number;
+  publishedAt: string;
+}
+
+// Rabbi Q&A (published answers)
+export interface RabbiQA {
+  id: number;
+  documentId: string;
+  question: string;
+  answer: string;
+  rabbi_name?: string;
+  locale?: string;
+  order: number;
+  publishedAt: string;
+}
+
+// Rabbi Question (form submission payload)
+export interface RabbiQuestionPayload {
+  name: string;
+  email: string;
+  question: string;
+  community?: string;
+}
+
+// Tradition
+export interface StrapiTradition {
+  id: number;
+  documentId: string;
+  title: string;
+  description: string;
+  related_holiday?: string;
+  locale?: string;
+  order: number;
+  publishedAt: string;
+}
+
+// Hebcal Holiday
+export interface HebcalHoliday {
+  title: string;
+  date: string;
+  hebrew?: string;
+  category: string;
+  yomtov?: boolean;
+}
+
+// Project
+export interface StrapiProject {
+  id: number;
+  documentId: string;
+  title: string;
+  slug: string;
+  description?: string;
+  content?: string;
+  icon?: string;
+  images?: StrapiImage[] | null;
+  external_link?: string;
+  order: number;
+  locale?: string;
+  publishedAt: string;
+}
+
+// Settings (single type, localized)
+export interface StrapiSettings {
+  id: number;
+  documentId: string;
+  site_name?: string;
+  site_description?: string;
+  hero_title?: string;
+  hero_subtitle?: string;
+  contact_email?: string;
+  contact_phone?: string;
+  contact_address?: string;
+  social_media?: Record<string, string>;
+  footer_text?: string;
+  communities_title?: string;
+  communities_description?: string;
+  projects_title?: string;
+  projects_description?: string;
+  stats_communities_value?: string;
+  stats_communities_label?: string;
+  stats_regions_value?: string;
+  stats_regions_label?: string;
+  stats_founded_value?: string;
+  stats_founded_label?: string;
+  stats_events_value?: string;
+  stats_events_label?: string;
+  locale?: string;
+  publishedAt: string;
 }
 
 // Strapi Collection Response

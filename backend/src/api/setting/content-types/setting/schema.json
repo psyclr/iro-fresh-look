@@ -4,51 +4,143 @@
   "info": {
     "singularName": "setting",
     "pluralName": "settings",
-    "displayName": "Settings",
-    "description": "Global site settings, labels and texts"
+    "displayName": "Настройки сайта",
+    "description": "Глобальные настройки, тексты и статистика"
   },
   "options": {
-    "draftAndPublish": false
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
   },
   "attributes": {
     "site_name": {
-      "type": "string"
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
     },
     "site_description": {
-      "type": "text"
+      "type": "text",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
     },
     "hero_title": {
-      "type": "string"
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
     },
     "hero_subtitle": {
-      "type": "text"
+      "type": "text",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
     },
     "contact_email": {
-      "type": "email"
+      "type": "email",
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
     },
     "contact_phone": {
-      "type": "string"
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
     },
     "contact_address": {
-      "type": "string"
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
     },
     "social_media": {
-      "type": "json"
+      "type": "json",
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
     },
     "footer_text": {
-      "type": "text"
+      "type": "text",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
     },
     "communities_title": {
-      "type": "string"
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
     },
     "communities_description": {
-      "type": "text"
+      "type": "text",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
     },
     "projects_title": {
-      "type": "string"
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
     },
     "projects_description": {
-      "type": "text"
+      "type": "text",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
+    },
+    "stats_communities_value": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
+    },
+    "stats_communities_label": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
+    },
+    "stats_regions_value": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
+    },
+    "stats_regions_label": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
+    },
+    "stats_founded_value": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
+    },
+    "stats_founded_label": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
+    },
+    "stats_events_value": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
+    },
+    "stats_events_label": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
     }
   }
 }

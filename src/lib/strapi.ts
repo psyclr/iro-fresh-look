@@ -3,6 +3,14 @@ import type {
   News,
   Event,
   Page,
+  NewspaperIssue,
+  PosterEvent,
+  StrapiCommunity,
+  StrapiProject,
+  RabbiQA,
+  RabbiQuestionPayload,
+  StrapiTradition,
+  StrapiSettings,
   StrapiResponse,
   StrapiSingleResponse,
 } from '@/types/strapi';
@@ -107,6 +115,112 @@ export async function fetchPageBySlug(
   );
 
   return response.data[0] || null;
+}
+
+// Newspaper Issues
+export async function fetchNewspaperIssues(locale: string): Promise<NewspaperIssue[]> {
+  const response = await fetchStrapi<StrapiResponse<NewspaperIssue>>(
+    `/api/newspaper-issues?locale=${locale}&populate=*&sort=date:desc`
+  );
+  return response.data;
+}
+
+// Poster Events
+export async function fetchPosterEvents(locale: string): Promise<PosterEvent[]> {
+  const response = await fetchStrapi<StrapiResponse<PosterEvent>>(
+    `/api/poster-events?locale=${locale}&populate=*&sort=date:asc`
+  );
+  return response.data;
+}
+
+// Communities
+export async function fetchStrapiCommunities(locale: string): Promise<StrapiCommunity[]> {
+  const response = await fetchStrapi<StrapiResponse<StrapiCommunity>>(
+    `/api/communities?locale=${locale}&populate=*&sort=order:asc`
+  );
+  return response.data;
+}
+
+// Projects
+export async function fetchProjects(locale: string): Promise<StrapiProject[]> {
+  const response = await fetchStrapi<StrapiResponse<StrapiProject>>(
+    `/api/projects?locale=${locale}&populate=*&sort=order:asc`
+  );
+  return response.data;
+}
+
+// Rabbi Q&A
+export async function fetchRabbiQAs(locale: string): Promise<RabbiQA[]> {
+  const response = await fetchStrapi<StrapiResponse<RabbiQA>>(
+    `/api/rabbi-qas?locale=${locale}&sort=order:asc`
+  );
+  return response.data;
+}
+
+// Traditions
+export async function fetchTraditions(locale: string): Promise<StrapiTradition[]> {
+  const response = await fetchStrapi<StrapiResponse<StrapiTradition>>(
+    `/api/traditions?locale=${locale}&sort=order:asc`
+  );
+  return response.data;
+}
+
+// Settings (single type, localized)
+export async function fetchSettings(locale: string): Promise<StrapiSettings | null> {
+  try {
+    const response = await fetchStrapi<StrapiSingleResponse<StrapiSettings>>(
+      `/api/setting?locale=${locale}`
+    );
+    return response.data;
+  } catch {
+    return null;
+  }
+}
+
+// Submit Rabbi Question (POST)
+export async function submitRabbiQuestion(data: RabbiQuestionPayload): Promise<void> {
+  const url = `${STRAPI_URL}/api/rabbi-questions`;
+
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+  };
+
+  if (STRAPI_TOKEN && STRAPI_TOKEN !== 'REPLACE_WITH_YOUR_TOKEN_FROM_STRAPI_ADMIN') {
+    headers.Authorization = `Bearer ${STRAPI_TOKEN}`;
+  }
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ data }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to submit question: ${response.status} ${response.statusText}`);
+  }
+}
+
+// Hebcal Holidays (external API)
+export interface HebcalResponse {
+  items: Array<{
+    title: string;
+    date: string;
+    hebrew?: string;
+    category: string;
+    yomtov?: boolean;
+  }>;
+}
+
+export async function fetchHebcalHolidays(): Promise<HebcalResponse> {
+  const response = await fetch(
+    'https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&min=on&year=now&month=x'
+  );
+
+  if (!response.ok) {
+    throw new Error(`Hebcal API error: ${response.status}`);
+  }
+
+  return response.json();
 }
 
 // Search

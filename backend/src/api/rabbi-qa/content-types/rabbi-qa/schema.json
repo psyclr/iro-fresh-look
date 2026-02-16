@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rabbi_qas",
+  "info": {
+    "singularName": "rabbi-qa",
+    "pluralName": "rabbi-qas",
+    "displayName": "Вопросы раввину",
+    "description": "Опубликованные вопросы и ответы раввинов"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "question": {
+      "type": "text",
+      "required": true,
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
+    },
+    "answer": {
+      "type": "text",
+      "required": true,
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
+    },
+    "rabbi_name": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": { "localized": true }
+      }
+    },
+    "order": {
+      "type": "integer",
+      "default": 0,
+      "pluginOptions": {
+        "i18n": { "localized": false }
+      }
+    }
+  }
+}

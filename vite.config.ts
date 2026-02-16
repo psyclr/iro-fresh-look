@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: mode === "production" ? "/iro-fresh-look/" : "/",
+  base: process.env.VITE_BASE_PATH || (mode === "production" ? "/iro-fresh-look/" : "/"),
   server: {
     host: "::",
     port: 8080,

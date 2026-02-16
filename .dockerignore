@@ -1,0 +1,12 @@
+node_modules
+backend/
+.git
+.github
+*.md
+.vscode
+.idea
+.DS_Store
+.claude
+dist
+.env.local
+.env.*.local

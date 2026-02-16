@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Facebook, Instagram } from "lucide-react";
 
 import logo from "@/assets/iro-logo.png";
 
@@ -21,9 +22,31 @@ const Footer = () => {
                 <p className="text-sm text-white/80">{t("hero.titleLine3")}</p>
               </div>
             </div>
-            <p className="text-white/80 text-sm leading-relaxed">
+            <p className="text-white/80 text-sm leading-relaxed mb-4">
               {t("footer.tagline")}
             </p>
+
+            {/* Social Links */}
+            <div className="flex items-center gap-3">
+              <a
+                href="https://www.facebook.com/IROvBelarus"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                aria-label="Facebook"
+              >
+                <Facebook className="w-4 h-4" />
+              </a>
+              <a
+                href="https://www.instagram.com/iro_v_rb/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-4 h-4" />
+              </a>
+            </div>
           </div>
 
           {/* Quick Links */}
@@ -31,13 +54,13 @@ const Footer = () => {
             <h4 className="font-semibold mb-4">{t("footer.quickLinks")}</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/community" className="text-white/80 hover:text-accent-light transition-colors">
-                  {t("navigation.menu.community")}
+                <Link to="/poster" className="text-white/80 hover:text-accent-light transition-colors">
+                  {t("navigation.menu.poster")}
                 </Link>
               </li>
               <li>
-                <Link to="/events" className="text-white/80 hover:text-accent-light transition-colors">
-                  {t("navigation.menu.events")}
+                <Link to="/news" className="text-white/80 hover:text-accent-light transition-colors">
+                  {t("navigation.menu.news")}
                 </Link>
               </li>
               <li>
@@ -57,9 +80,19 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">{t("footer.contactTitle")}</h4>
             <div className="space-y-2 text-sm text-white/80">
-              <p>{t("contact.info.addressValue")}</p>
-              <p>{t("community.card.email", { email: t("contact.info.emailValue") })}</p>
-              <p>{t("community.card.phone", { phone: t("contact.info.phoneValue") })}</p>
+              <p>{t("contactsPage.addressValue")}</p>
+              <p>
+                Email:{" "}
+                <a href="mailto:iro13b@gmail.com" className="hover:text-accent-light transition-colors">
+                  iro13b@gmail.com
+                </a>
+              </p>
+              <p>
+                {t("contactsPage.phoneLabel")}{" "}
+                <a href="tel:+375173615612" className="hover:text-accent-light transition-colors">
+                  +375 17 361-56-12
+                </a>
+              </p>
             </div>
           </div>
         </div>

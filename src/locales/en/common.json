@@ -3,38 +3,25 @@
     "menu": {
       "community": "Communities",
       "judaism": "Judaism",
-      "heritage": "Heritage",
       "projects": "Projects",
-      "events": "Events",
+      "poster": "Events",
       "news": "News",
       "gallery": "Gallery",
-      "contacts": "Contacts",
-      "blog": "Blog"
+      "contacts": "Contacts"
     },
     "submenu": {
-      "community": {
-        "communities": "All Communities",
-        "minsk": "Minsk Community",
-        "regional": "Regional Communities"
-      },
       "judaism": {
         "rabbi": "Rabbi's Council",
         "holidays": "Holidays",
         "traditions": "Traditions"
       },
-      "heritage": {
-        "lapidary": "Lapidarium",
-        "cemeteries": "Cemeteries",
-        "archives": "Archives"
-      },
       "projects": {
         "newspaper": "BEREGA Newspaper",
-        "education": "Education",
-        "tours": "Tours"
-      },
-      "events": {
-        "upcoming": "Upcoming Events",
-        "archive": "Past Events"
+        "lapidarium": "Lapidarium in Brest",
+        "center": "Heritage Center",
+        "humanitarian": "Humanitarian Aid",
+        "archives": "Archives",
+        "tours": "Virtual Tours"
       }
     },
     "language": {
@@ -64,7 +51,15 @@
         "community": "Community",
         "selected": "Selected"
       },
-      "ariaLabel": "Map of Jewish communities in Belarus"
+      "ariaLabel": "Map of Jewish communities in Belarus",
+      "regions": {
+        "minsk": "Minsk",
+        "brest": "Brest",
+        "grodno": "Grodno",
+        "vitebsk": "Vitebsk",
+        "gomel": "Gomel",
+        "mogilev": "Mogilev"
+      }
     },
     "stats": {
       "communities": "Communities nationwide",
@@ -125,13 +120,13 @@
     "description": "We are happy to help and answer any of your questions",
     "info": {
       "addressTitle": "Address",
-      "addressValue": "Minsk, Republic of Belarus",
-      "addressNote": "(Exact address coming soon)",
+      "addressValue": "220002, Minsk, 13B Daumana St.",
+      "addressNote": "Central office of JRU in Belarus",
       "phoneTitle": "Phone",
-      "phoneValue": "+375 (XX) XXX-XX-XX",
-      "phoneNote": "(Number coming soon)",
+      "phoneValue": "+375 17 361-56-12",
+      "phoneNote": "Landline",
       "emailTitle": "Email",
-      "emailValue": "info@iro.by",
+      "emailValue": "iro13b@gmail.com",
       "emailNote": "We reply within 24 hours"
     },
     "form": {
@@ -224,8 +219,8 @@
     "madeWith": "Built with",
     "forCommunity": "for the community"
   },
-  "blog": {
-    "title": "Blog",
+  "news": {
+    "title": "News",
     "subtitle": "News, reflections and stories from the Jewish community",
     "noArticles": "No articles yet",
     "readMore": "Read more",
@@ -233,6 +228,24 @@
     "articleNotFound": "Article not found",
     "articleNotFoundDescription": "Unfortunately, the requested article was not found or has been removed",
     "relatedArticles": "Related articles"
+  },
+  "newspaperPage": {
+    "title": "BEREGA Newspaper",
+    "intro": "BEREGA is the newspaper of the Jewish Religious Union in the Republic of Belarus. The publication covers the life of Jewish communities, publishes historical materials and reports on traditions and current events.",
+    "archiveTitle": "Issue Archive",
+    "noIssues": "Issues coming soon",
+    "downloadPdf": "Download PDF",
+    "issueNumber": "Issue #{{number}}",
+    "viewPdf": "Read issue"
+  },
+  "posterPage": {
+    "title": "Events",
+    "intro": "Schedule of upcoming events, holidays and community gatherings.",
+    "upcoming": "Upcoming Events",
+    "past": "Past Events",
+    "noEvents": "No events yet",
+    "location": "Location",
+    "details": "Details"
   },
   "candleLighting": {
     "title": "Candle Lighting",
@@ -254,16 +267,60 @@
     "faithP1": "Judaism is founded on belief in one God and observance of the commandments of the Torah. It is not just a religion but a way of life that unites the spiritual, ethical and cultural traditions of the Jewish people.",
     "faithP2": "In our union we study sacred texts, observe holidays and maintain a connection with the centuries-old traditions of our ancestors.",
     "lifeTitle": "Religious Life of the Community",
-    "lifeDesc": "We hold regular services, study the Torah, celebrate holidays and life-cycle events according to Jewish traditions. Our community is open to everyone who seeks spiritual growth and the study of Judaism."
+    "lifeDesc": "We hold regular services, study the Torah, celebrate holidays and life-cycle events according to Jewish traditions. Our community is open to everyone who seeks spiritual growth and the study of Judaism.",
+    "rabbiDetailP1": "The Rabbinical Council of the Jewish Religious Union provides spiritual leadership to the communities of Belarus. The rabbis help community members with religious practice, perform rituals and offer guidance on matters of halacha.",
+    "rabbiDetailP2": "The rabbinate is actively involved in education: Torah lessons, lectures on Jewish philosophy, preparation for holidays and life events. Spiritual mentorship is available to all community members.",
+    "holidaysDetailP1": "The Jewish calendar includes many holidays and memorial dates, each carrying deep spiritual meaning. Rosh Hashanah and Yom Kippur, Sukkot and Simchat Torah, Hanukkah and Purim, Passover and Shavuot — each holiday is tied to the history and faith of our people.",
+    "holidaysDetailP2": "Our communities hold collective celebrations with traditional meals, prayers, candle lighting and cultural programs. We strive to make holidays bright and memorable for everyone — from children to senior community members.",
+    "traditionsDetailP1": "Jewish traditions encompass all aspects of life: from Shabbat — a weekly day of rest and spiritual renewal — to kashrut, life-cycle rituals (brit milah, bar/bat mitzvah, chuppah) and daily prayers.",
+    "traditionsDetailP2": "Preserving traditions is a bridge between generations. We pass on knowledge and customs through family education, community programs and courses, so everyone can feel part of the living Jewish history.",
+    "readMore": "Read more",
+    "rabbiQA": {
+      "empty": "Rabbi's answers will appear here soon",
+      "rabbi": "Rabbi"
+    },
+    "form": {
+      "title": "Ask the Rabbi",
+      "nameLabel": "Your name",
+      "namePlaceholder": "Enter your name",
+      "emailLabel": "Email for reply",
+      "emailPlaceholder": "your@email.com",
+      "questionLabel": "Your question",
+      "questionPlaceholder": "Write your question...",
+      "submit": "Submit question",
+      "submitting": "Submitting...",
+      "successTitle": "Question submitted",
+      "successDesc": "Thank you! The answer will be sent to the email provided.",
+      "errorTitle": "Submission error",
+      "errorDesc": "Please try again later or contact us via email."
+    },
+    "holidays": {
+      "empty": "Unable to load holiday calendar",
+      "noUpcoming": "No upcoming holidays",
+      "categories": {
+        "major": "Major",
+        "minor": "Minor",
+        "modern": "Modern",
+        "roshchodesh": "Rosh Chodesh",
+        "shabbat": "Shabbat",
+        "holiday": "Holiday"
+      }
+    },
+    "traditions": {
+      "empty": "Traditions content coming soon",
+      "relatedHoliday": "Related holiday"
+    }
   },
   "heritagePage": {
     "title": "Heritage",
     "intro": "The rich cultural and spiritual heritage of the Jewish people in Belarus spans many centuries. We work to preserve historical monuments, traditions and to pass knowledge on to the younger generation.",
     "toursTitle": "Virtual Tours",
+    "toursShort": "Interactive online excursions",
     "toursDesc": "Explore historic Jewish sites in Belarus through interactive virtual tours that let you discover the rich heritage from the comfort of your home.",
     "projectTitle": "Jewish Belarus Project",
     "projectDesc": "A comprehensive project to document and preserve Jewish heritage in Belarus, including research, archival work and educational programmes.",
     "cemeteriesTitle": "Jewish Cemeteries",
+    "cemeteriesShort": "Preserving sacred sites",
     "cemeteriesP1": "We work to preserve and restore Jewish cemeteries throughout Belarus. These sacred sites are an important part of our historical heritage.",
     "cemeteriesP2": "Our activities include documenting tombstones, installing memorial plaques and creating memorial alleys to preserve the memory of past generations.",
     "lapidariumTitle": "Lapidarium in Brest",
@@ -275,17 +332,22 @@
     "title": "Projects",
     "intro": "Our projects are aimed at community development, preserving traditions and supporting those in need. We implement a variety of initiatives in the areas of culture, education and social assistance.",
     "newspaperTitle": "BEREGA Newspaper",
+    "newspaperShort": "Publication about community life and traditions",
     "newspaperP1": "Our regular publication covers the life of the Jewish community in Belarus, publishes historical materials and reports on traditions and current events in community life.",
     "newspaperP2": "The newspaper serves as an important link between communities in various cities and regions of the country.",
     "lapidariumTitle": "Lapidarium in Brest",
+    "lapidariumShort": "Open-air museum project",
     "lapidariumP1": "Building the first Jewish lapidarium in Brest is a large-scale project to create an open-air museum that will display historical tombstones and monuments.",
     "lapidariumP2": "The project is aimed at preserving the material heritage of the regional Jewish community for future generations.",
-    "centerTitle": "Jewish Heritage Research Center",
+    "centerTitle": "Heritage Research Center",
+    "centerShort": "Research and history preservation",
     "centerDesc": "A research and educational center that collects, systematises and studies materials on Jewish history and culture in Belarus. The center hosts academic conferences, seminars and publishes scholarly works.",
     "aidTitle": "Humanitarian Aid",
+    "aidShort": "Supporting families and those in need",
     "aidP1": "Every year we provide support to large families and people with disabilities. Our programme includes material aid, food packages and social support.",
     "aidP2": "We believe that mutual aid and caring for others is the foundation of a strong community.",
     "archivesTitle": "Archives",
+    "archivesShort": "Historical documentation",
     "archivesDesc": "We work to collect, digitise and preserve archival documents, photographs and other materials related to the history of Jewish communities in Belarus. This project helps preserve the memory of the past and provide access to historical materials for researchers."
   },
   "eventsPage": {

@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rabbi_questions",
+  "info": {
+    "singularName": "rabbi-question",
+    "pluralName": "rabbi-questions",
+    "displayName": "Заявки раввину",
+    "description": "Вопросы, отправленные пользователями раввину"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "question": {
+      "type": "text",
+      "required": true
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["new", "answered", "archived"],
+      "default": "new"
+    },
+    "community": {
+      "type": "string"
+    }
+  }
+}

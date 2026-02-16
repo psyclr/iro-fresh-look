@@ -40,6 +40,13 @@ backend/.env
 backend/public/uploads/*
 !backend/public/uploads/.gitkeep
 
+# Screenshots (development reference)
+*.png
+!public/**/*.png
+
+# Scraped data
+scraped-data/
+
 # Misc
 scraper.js
 BEST_PRACTICES.md

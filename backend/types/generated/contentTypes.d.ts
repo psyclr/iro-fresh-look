@@ -506,6 +506,7 @@ export interface ApiCommunityCommunity extends Struct.CollectionTypeSchema {
   };
   attributes: {
     address: Schema.Attribute.String;
+    building_photo: Schema.Attribute.Media<'images'>;
     community_name: Schema.Attribute.String & Schema.Attribute.Required;
     coordinates: Schema.Attribute.JSON & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
@@ -513,6 +514,10 @@ export interface ApiCommunityCommunity extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
     email: Schema.Attribute.Email;
+    event_photos: Schema.Attribute.Media<'images', true>;
+    founded_year: Schema.Attribute.Integer;
+    history_facts: Schema.Attribute.JSON;
+    languages: Schema.Attribute.JSON;
     leader: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -520,10 +525,19 @@ export interface ApiCommunityCommunity extends Struct.CollectionTypeSchema {
       'api::community.community'
     > &
       Schema.Attribute.Private;
+    member_count: Schema.Attribute.Integer;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     phone: Schema.Attribute.String;
+    programs: Schema.Attribute.Component<'community.program', true>;
     publishedAt: Schema.Attribute.DateTime;
+    region: Schema.Attribute.Enumeration<
+      ['minsk', 'brest', 'grodno', 'vitebsk', 'gomel', 'mogilev']
+    > &
+      Schema.Attribute.Required;
+    shabbat_candle_lighting: Schema.Attribute.String;
+    shabbat_havdalah: Schema.Attribute.String;
+    shabbat_note: Schema.Attribute.String;
     slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -549,8 +563,9 @@ export interface ApiProjectProject extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
+    external_link: Schema.Attribute.String;
     icon: Schema.Attribute.String;
-    image: Schema.Attribute.Media<'images'>;
+    images: Schema.Attribute.Media<'images', true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -561,6 +576,73 @@ export interface ApiProjectProject extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.UID<'title'>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiRabbiQaRabbiQa extends Struct.CollectionTypeSchema {
+  collectionName: 'rabbi_qas';
+  info: {
+    description: 'Published questions and answers from rabbis';
+    displayName: 'Rabbi Q&A';
+    pluralName: 'rabbi-qas';
+    singularName: 'rabbi-qa';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    answer: Schema.Attribute.Text & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::rabbi-qa.rabbi-qa'
+    > &
+      Schema.Attribute.Private;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    publishedAt: Schema.Attribute.DateTime;
+    question: Schema.Attribute.Text & Schema.Attribute.Required;
+    rabbi_name: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiRabbiQuestionRabbiQuestion
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'rabbi_questions';
+  info: {
+    description: 'Questions submitted by users to the rabbi';
+    displayName: 'Rabbi Question';
+    pluralName: 'rabbi-questions';
+    singularName: 'rabbi-question';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    community: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.Email & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::rabbi-question.rabbi-question'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    question: Schema.Attribute.Text & Schema.Attribute.Required;
+    status: Schema.Attribute.Enumeration<['new', 'answered', 'archived']> &
+      Schema.Attribute.DefaultTo<'new'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -602,6 +684,38 @@ export interface ApiSettingSetting extends Struct.SingleTypeSchema {
     site_description: Schema.Attribute.Text;
     site_name: Schema.Attribute.String;
     social_media: Schema.Attribute.JSON;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTraditionTradition extends Struct.CollectionTypeSchema {
+  collectionName: 'traditions';
+  info: {
+    description: 'Jewish traditions of Belarusian Jews';
+    displayName: 'Tradition';
+    pluralName: 'traditions';
+    singularName: 'tradition';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::tradition.tradition'
+    > &
+      Schema.Attribute.Private;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    publishedAt: Schema.Attribute.DateTime;
+    related_holiday: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1122,7 +1236,10 @@ declare module '@strapi/strapi' {
       'api::category.category': ApiCategoryCategory;
       'api::community.community': ApiCommunityCommunity;
       'api::project.project': ApiProjectProject;
+      'api::rabbi-qa.rabbi-qa': ApiRabbiQaRabbiQa;
+      'api::rabbi-question.rabbi-question': ApiRabbiQuestionRabbiQuestion;
       'api::setting.setting': ApiSettingSetting;
+      'api::tradition.tradition': ApiTraditionTradition;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

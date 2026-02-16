@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_community_programs",
+  "info": {
+    "displayName": "Program",
+    "description": "Community program or activity"
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": ["education", "social", "religious", "cultural", "youth"],
+      "default": "education"
+    },
+    "schedule": {
+      "type": "string"
+    },
+    "contact_person": {
+      "type": "string"
+    }
+  }
+}
