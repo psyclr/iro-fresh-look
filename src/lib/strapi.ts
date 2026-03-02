@@ -7,6 +7,7 @@ import type {
   PosterEvent,
   StrapiCommunity,
   StrapiProject,
+  StrapiGalleryAlbum,
   RabbiQA,
   RabbiQuestionPayload,
   StrapiTradition,
@@ -145,6 +146,14 @@ export async function fetchStrapiCommunities(locale: string): Promise<StrapiComm
 export async function fetchProjects(locale: string): Promise<StrapiProject[]> {
   const response = await fetchStrapi<StrapiResponse<StrapiProject>>(
     `/api/projects?locale=${locale}&populate=*&sort=order:asc`
+  );
+  return response.data;
+}
+
+// Gallery Albums
+export async function fetchGalleries(locale: string): Promise<StrapiGalleryAlbum[]> {
+  const response = await fetchStrapi<StrapiResponse<StrapiGalleryAlbum>>(
+    `/api/galleries?locale=${locale}&populate=images&sort=order:asc`
   );
   return response.data;
 }

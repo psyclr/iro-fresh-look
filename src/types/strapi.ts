@@ -308,6 +308,18 @@ export interface StrapiSettings {
   publishedAt: string;
 }
 
+// Gallery Album
+export interface StrapiGalleryAlbum {
+  id: number;
+  documentId: string;
+  title: string;
+  description?: string;
+  images?: StrapiImage[] | null;
+  order: number;
+  locale?: string;
+  publishedAt: string;
+}
+
 // Strapi Collection Response
 export interface StrapiResponse<T> {
   data: T[];

@@ -14,6 +14,7 @@ import {
   fetchPosterEvents,
   fetchStrapiCommunities,
   fetchProjects,
+  fetchGalleries,
   fetchRabbiQAs,
   fetchTraditions,
   submitRabbiQuestion,
@@ -160,6 +161,18 @@ export const useProjects = () => {
   return useQuery({
     queryKey: ['projects', locale],
     queryFn: () => fetchProjects(locale),
+    staleTime: 10 * 60 * 1000,
+  });
+};
+
+// Gallery Albums
+export const useGalleries = () => {
+  const { i18n } = useTranslation();
+  const locale = i18n.resolvedLanguage || i18n.language || 'ru';
+
+  return useQuery({
+    queryKey: ['galleries', locale],
+    queryFn: () => fetchGalleries(locale),
     staleTime: 10 * 60 * 1000,
   });
 };

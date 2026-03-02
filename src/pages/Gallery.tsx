@@ -1,39 +1,21 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
-import { X } from 'lucide-react';
+import { X, Loader2, ImageOff } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-
-const BASE = import.meta.env.BASE_URL;
-
-interface GalleryImage {
-  src: string;
-  alt: string;
-}
-
-const lapidariumImages: GalleryImage[] = [
-  { src: `${BASE}images/lapidarium/lapid-main.webp`, alt: "Лапидарий в Бресте — общий вид" },
-  { src: `${BASE}images/lapidarium/lap1.jpg`, alt: "Надгробия в лапидарии" },
-  { src: `${BASE}images/lapidarium/lap2.jpg`, alt: "Исторические надгробия" },
-  { src: `${BASE}images/lapidarium/lap3.jpg`, alt: "Памятники еврейской культуры" },
-  { src: `${BASE}images/lapidarium/lap4.jpg`, alt: "Фрагменты надгробий" },
-  { src: `${BASE}images/lapidarium/nadgrobiya.jpg`, alt: "Надгробные камни" },
-  { src: `${BASE}images/lapidarium/dorozhka.jpg`, alt: "Дорожка лапидария" },
-  { src: `${BASE}images/lapidarium/proekt.jpg`, alt: "Проект лапидария" },
-];
-
-const heritageImages: GalleryImage[] = [
-  { src: `${BASE}images/heritage/yama-minsk.jpg`, alt: "Мемориал «Яма» в Минске" },
-  { src: `${BASE}images/heritage/synagogue-gorodok.jpg`, alt: "Синагога в Городке" },
-  { src: `${BASE}images/heritage/mill-gorodok.jpg`, alt: "Мельница в Городке" },
-  { src: `${BASE}images/heritage/shtetl.jpg`, alt: "Еврейское местечко — штетл" },
-  { src: `${BASE}images/heritage/stalag342-1.jpg`, alt: "Мемориал Шталаг 342" },
-];
+import { useGalleries } from '@/hooks/useStrapi';
+import type { StrapiImage } from '@/types/strapi';
 
 const Gallery = () => {
   const { t } = useTranslation();
+  const { data: albums, isLoading, error } = useGalleries();
   const [lightbox, setLightbox] = useState<string | null>(null);
+
+  const getImageUrl = (image: StrapiImage) => {
+    const strapiUrl = import.meta.env.VITE_STRAPI_URL || '';
+    return image.url.startsWith('http') ? image.url : `${strapiUrl}${image.url}`;
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -47,59 +29,71 @@ const Gallery = () => {
               {t('galleryPage.intro')}
             </p>
 
-            <div className="space-y-12">
-              {/* Lapidarium Section */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-2 text-primary">{t('galleryPage.lapidariumTitle')}</h2>
-                <p className="text-muted-foreground mb-6">{t('galleryPage.lapidariumDesc')}</p>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {lapidariumImages.map((img) => (
-                    <button
-                      key={img.src}
-                      onClick={() => setLightbox(img.src)}
-                      className="group relative aspect-square overflow-hidden rounded-lg border bg-muted focus:outline-none focus:ring-2 focus:ring-primary"
-                    >
-                      <img
-                        src={img.src}
-                        alt={img.alt}
-                        loading="lazy"
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                    </button>
-                  ))}
-                </div>
-              </section>
-
-              {/* Heritage Section */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-2 text-primary">{t('galleryPage.historyTitle')}</h2>
-                <p className="text-muted-foreground mb-6">{t('galleryPage.memorialDesc')}</p>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {heritageImages.map((img) => (
-                    <button
-                      key={img.src}
-                      onClick={() => setLightbox(img.src)}
-                      className="group relative aspect-[4/3] overflow-hidden rounded-lg border bg-muted focus:outline-none focus:ring-2 focus:ring-primary"
-                    >
-                      <img
-                        src={img.src}
-                        alt={img.alt}
-                        loading="lazy"
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                    </button>
-                  ))}
-                </div>
-              </section>
-
-              {/* Share CTA */}
-              <div className="bg-primary/5 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold mb-3">{t('galleryPage.shareTitle')}</h3>
-                <p className="text-muted-foreground">
-                  {t('galleryPage.shareDesc')}
-                </p>
+            {isLoading && (
+              <div className="flex justify-center py-20">
+                <Loader2 className="w-8 h-8 animate-spin text-primary" />
               </div>
-            </div>
+            )}
+
+            {error && (
+              <div className="text-center py-20 text-muted-foreground">
+                <ImageOff className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                <p>{t('galleryPage.loadError', 'Failed to load gallery')}</p>
+              </div>
+            )}
+
+            {!isLoading && !error && albums && albums.length === 0 && (
+              <div className="text-center py-20 text-muted-foreground">
+                <ImageOff className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                <p>{t('galleryPage.empty', 'No albums yet')}</p>
+              </div>
+            )}
+
+            {albums && albums.length > 0 && (
+              <div className="space-y-12">
+                {albums.map((album) => (
+                  <section key={album.id}>
+                    <h2 className="text-2xl font-semibold mb-2 text-primary">{album.title}</h2>
+                    {album.description && (
+                      <p className="text-muted-foreground mb-6">{album.description}</p>
+                    )}
+                    {album.images && album.images.length > 0 ? (
+                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {album.images.map((image) => {
+                          const url = getImageUrl(image);
+                          return (
+                            <button
+                              key={image.id}
+                              onClick={() => setLightbox(url)}
+                              className="group relative aspect-square overflow-hidden rounded-lg border bg-muted focus:outline-none focus:ring-2 focus:ring-primary"
+                            >
+                              <img
+                                src={url}
+                                alt={image.alternativeText || album.title}
+                                loading="lazy"
+                                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                              />
+                            </button>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <p className="text-muted-foreground text-sm italic">
+                        {t('galleryPage.noPhotos', 'No photos in this album')}
+                      </p>
+                    )}
+                  </section>
+                ))}
+
+                {/* Share CTA */}
+                <div className="bg-primary/5 p-6 rounded-lg">
+                  <h3 className="text-xl font-semibold mb-3">{t('galleryPage.shareTitle')}</h3>
+                  <p className="text-muted-foreground">
+                    {t('galleryPage.shareDesc')}
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </main>

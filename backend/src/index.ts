@@ -29,6 +29,7 @@ export default {
       { uid: 'api::rabbi-qa.rabbi-qa', actions: ['find', 'findOne'] },
       { uid: 'api::tradition.tradition', actions: ['find', 'findOne'] },
       { uid: 'api::poster-event.poster-event', actions: ['find', 'findOne'] },
+      { uid: 'api::gallery.gallery', actions: ['find', 'findOne'] },
       { uid: 'api::rabbi-question.rabbi-question', actions: ['create'] },
     ];
 
@@ -173,6 +174,9 @@ async function seedInitialData(strapi: Core.Strapi) {
 
   // Upload seed images and link to projects
   await seedProjectImages(strapi);
+
+  // Seed gallery albums with images
+  await seedGalleries(strapi);
 
   console.log('Initial data seeded successfully!\n');
 }
@@ -691,6 +695,100 @@ async function seedProjectImages(strapi: Core.Strapi) {
       } catch (err) {
         console.log(`  Failed to link images to ${proj.title}:`, (err as Error).message);
       }
+    }
+  }
+}
+
+async function seedGalleries(strapi: Core.Strapi) {
+  console.log('Creating gallery albums...');
+
+  const albums = [
+    {
+      ru: { title: 'Лапидарий в Бресте', description: 'Строительство первого еврейского лапидария в Бресте — музея под открытым небом с историческими надгробиями.' },
+      en: { title: 'Lapidarium in Brest', description: 'Construction of the first Jewish lapidarium in Brest — an open-air museum with historical tombstones.' },
+      shared: { order: 1 },
+      imageDir: 'lapidarium',
+    },
+    {
+      ru: { title: 'Памятники еврейского наследия', description: 'Памятники, мемориалы и исторические места, связанные с еврейским наследием Беларуси.' },
+      en: { title: 'Jewish Heritage Monuments', description: 'Monuments, memorials and historical sites related to the Jewish heritage of Belarus.' },
+      shared: { order: 2 },
+      imageDir: 'heritage',
+    },
+  ];
+
+  const seedDir = path.resolve(__dirname, '../../seed-data');
+
+  for (const album of albums) {
+    try {
+      const doc = await createWithTranslation(
+        strapi,
+        'api::gallery.gallery',
+        { ...album.shared, ...album.ru },
+        { ...album.shared, ...album.en },
+      );
+
+      // Upload images for this album
+      const dirPath = path.join(seedDir, album.imageDir);
+      if (!fs.existsSync(dirPath)) {
+        console.log(`  No image dir: ${album.imageDir}`);
+        continue;
+      }
+
+      const files = fs.readdirSync(dirPath).filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f));
+      const uploadedIds: number[] = [];
+
+      for (const fileName of files) {
+        const filePath = path.join(dirPath, fileName);
+        const stats = fs.statSync(filePath);
+        const ext = path.extname(fileName).toLowerCase();
+        const mimeMap: Record<string, string> = {
+          '.jpg': 'image/jpeg',
+          '.jpeg': 'image/jpeg',
+          '.png': 'image/png',
+          '.webp': 'image/webp',
+        };
+
+        try {
+          const uploadService = strapi.plugin('upload').service('upload');
+          const [uploaded] = await uploadService.upload({
+            data: {},
+            files: {
+              filepath: filePath,
+              originalFilename: fileName,
+              mimetype: mimeMap[ext] || 'image/jpeg',
+              size: stats.size,
+            },
+          });
+          uploadedIds.push(uploaded.id);
+        } catch (err) {
+          console.log(`    Failed to upload ${fileName}:`, (err as Error).message);
+        }
+      }
+
+      if (uploadedIds.length > 0) {
+        // Link images to all locale rows of this gallery album
+        const knex = strapi.db.connection;
+        const rows = await knex('galleries')
+          .select('id')
+          .where('document_id', doc.documentId);
+
+        for (const row of rows) {
+          for (let i = 0; i < uploadedIds.length; i++) {
+            await knex('files_related_mph').insert({
+              file_id: uploadedIds[i],
+              related_id: row.id,
+              related_type: 'api::gallery.gallery',
+              field: 'images',
+              order: i + 1,
+            });
+          }
+        }
+      }
+
+      console.log(`  ${album.ru.title}: ${uploadedIds.length} images`);
+    } catch (error) {
+      console.log(`  Failed ${album.ru.title}:`, (error as Error).message);
     }
   }
 }
